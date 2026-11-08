@@ -4,8 +4,8 @@ Supaplane's onboarding model is Paseo-shaped: a daemon auto-starts and prints a 
 
 ## Identity anchors (created on first daemon start)
 
-| File                             | Purpose                                                                                                                             |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| File                               | Purpose                                                                                                                             |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | `~/.supaplane/server-id`           | Stable identifier for this daemon's home (`srv_<base64>`). Used as the relay session identifier and TOFU anchor for remote clients. |
 | `~/.supaplane/daemon-keypair.json` | Curve25519 keypair for the E2E relay channel. 0600 perms. Public key is base64; secret stays local.                                 |
 | `~/.supaplane/cli-client-id`       | Stable identifier for the local CLI for daemon auth.                                                                                |

@@ -42,9 +42,7 @@ export default function SessionsScreen() {
     return list.map((workspace) => {
       const activeId = workspace.activeSessionId;
       const session =
-        activeId !== null && activeId !== undefined
-          ? (sessions.get(activeId) ?? null)
-          : null;
+        activeId !== null && activeId !== undefined ? (sessions.get(activeId) ?? null) : null;
       return { workspace, session };
     });
   }, [workspaces, sessions]);
@@ -55,22 +53,22 @@ export default function SessionsScreen() {
       <ConnectionBanner />
       <View style={styles.headerRow}>
         <Text style={typography.title}>Workspaces</Text>
-        <Button
-          label="Pair new"
-          onPress={() => router.push("/connect")}
-          variant="secondary"
-        />
+        <Button label="Pair new" onPress={() => router.push("/connect")} variant="secondary" />
       </View>
       <FlatList
         data={rows}
         keyExtractor={(row) => row.workspace.workspaceId}
         contentContainerStyle={rows.length === 0 ? styles.emptyWrap : styles.list}
-        refreshControl={<RefreshControl refreshing={false} onRefresh={() => undefined} tintColor={colors.textMuted} />}
+        refreshControl={
+          <RefreshControl
+            refreshing={false}
+            onRefresh={() => undefined}
+            tintColor={colors.textMuted}
+          />
+        }
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Text style={typography.bodyMuted}>
-              No workspaces yet. Start one from the CLI:
-            </Text>
+            <Text style={typography.bodyMuted}>No workspaces yet. Start one from the CLI:</Text>
             <Text style={[typography.mono, styles.code]}>supaplane agent start</Text>
           </View>
         }
@@ -116,11 +114,11 @@ function labelForSession(session: SessionState): string {
 function FreshnessPill({ freshness }: { freshness: WorkspaceState["freshness"] }) {
   const palette =
     freshness === "active"
-      ? { bg: "#0e2a22", fg: colors.success }
+      ? { bg: colors.surfaceSuccess, fg: colors.success }
       : freshness === "blocked"
-        ? { bg: "#2a2010", fg: colors.warning }
+        ? { bg: colors.surfaceWarning, fg: colors.warning }
         : freshness === "done"
-          ? { bg: "#10202e", fg: colors.info }
+          ? { bg: colors.surfaceRaised, fg: colors.textSecondary }
           : { bg: colors.surfaceRaised, fg: colors.textMuted };
   return (
     <View style={[styles.pill, { backgroundColor: palette.bg }]}>

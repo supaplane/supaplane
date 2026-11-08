@@ -39,16 +39,16 @@ export function Composer({ client, diff }: Props) {
   };
 
   return (
-    <footer className="border-t border-neutral-800 bg-neutral-900/60 px-6 py-3">
+    <footer className="border-t border-fold-border bg-fold-panel px-6 py-3">
       <div className="flex gap-3">
         <input
-          className="w-48 rounded border border-neutral-700 bg-neutral-950 px-3 py-2 text-xs font-mono text-neutral-200 placeholder:text-neutral-600"
+          className="min-h-11 w-48 rounded-md border border-fold-border-control bg-fold-inset px-3 text-xs font-mono text-fold-text placeholder:text-fold-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fold-accent"
           placeholder="session id"
           value={sessionId}
           onChange={(e) => setSessionId(e.target.value)}
         />
         <input
-          className="flex-1 rounded border border-neutral-700 bg-neutral-950 px-3 py-2 text-sm text-neutral-200 placeholder:text-neutral-600"
+          className="min-h-11 flex-1 rounded-md border border-fold-border-control bg-fold-inset px-3 text-sm text-fold-text placeholder:text-fold-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fold-accent"
           placeholder="Send a prompt…"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
@@ -60,7 +60,7 @@ export function Composer({ client, diff }: Props) {
           }}
         />
         <button
-          className="rounded border border-neutral-700 bg-neutral-950 px-3 py-2 text-sm text-neutral-200 transition hover:bg-neutral-900 disabled:opacity-40"
+          className="min-h-11 rounded-md border border-fold-border-control bg-fold-inset px-3 text-sm text-fold-text transition hover:bg-fold-elevated focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fold-accent disabled:opacity-40"
           disabled={!client || !sessionId.trim()}
           onClick={openDiff}
           title="Send a diff.open command for this session"
@@ -68,7 +68,7 @@ export function Composer({ client, diff }: Props) {
           diff.open
         </button>
         <button
-          className="rounded bg-supaplane-accent px-4 py-2 text-sm font-medium text-white transition hover:bg-supaplane-accent-soft disabled:opacity-40"
+          className="min-h-11 rounded-md bg-fold-accent px-4 text-sm font-medium text-fold-on-accent transition hover:bg-fold-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fold-accent disabled:opacity-40"
           disabled={!client || !prompt.trim() || !sessionId.trim()}
           onClick={send}
         >
@@ -76,8 +76,8 @@ export function Composer({ client, diff }: Props) {
         </button>
       </div>
       {diff ? (
-        <p className="mt-2 truncate text-xs text-neutral-500">
-          Opened diff for <span className="font-mono text-neutral-300">{diff.name}</span>
+        <p className="mt-2 truncate text-xs text-fold-muted">
+          Opened diff for <span className="font-mono text-fold-text-secondary">{diff.name}</span>
           {diff.prevName ? (
             <>
               {" "}

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Supaplane · landing samples</title>
+    <link rel="stylesheet" href="fleet.css" />
+    <link rel="stylesheet" href="pages.css" />
+    <style>
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        padding: 28px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .card h2 {
+        margin: 0 0 8px;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: -0.03em;
+      }
+      .card p {
+        margin: 0 0 14px;
+        color: var(--fog);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+      @media (max-width: 800px) {
+        .cards {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="index.html">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 20 L21 12 L3 4 L8 12 Z" fill="#f5f0e8" />
+        </svg>
+        Supaplane landings
+      </a>
+      <a href="../../preview.html" style="color: var(--fog); font-size: 13px">Passenger standard</a>
+    </header>
+    <main class="hero">
+      <h1 style="max-width: 16ch; font-size: clamp(32px, 5vw, 56px)">
+        Seven pages. One fleet. Most of them standing still.
+      </h1>
+      <p class="lede">
+        Nine sprites. Three loop (blink, wave, walk). One bobs in CSS. The rest are still 1024px
+        drawings. Overlay the crowd — don't bake it into one video.
+      </p>
+    </main>
+    <section class="cards">
+      <a class="card" href="bento.html">
+        <h2>Bento</h2>
+        <p>
+          Featured workbench tile, then Desktop, iOS, daemon, BYO, MIT. Same sprites as the other
+          pages.
+        </p>
+        <span class="btn btn-ghost">Open</span>
+      </a>
+      <a class="card" href="t3.html">
+        <h2>T3 stack</h2>
+        <p>Huge type, one CTA, tweet marquee, crowd along the baseline.</p>
+        <span class="btn btn-ghost">Open</span>
+      </a>
+      <a class="card" href="workbench.html">
+        <h2>Workbench</h2>
+        <p>Copy left, product chrome right. Fleet loitering under the window.</p>
+        <span class="btn btn-ghost">Open</span>
+      </a>
+      <a class="card" href="fork.html">
+        <h2>Fork it</h2>
+        <p>MIT energy, a terminal line, one walker in a mostly still parade.</p>
+        <span class="btn btn-ghost">Open</span>
+      </a>
+      <a class="card" href="paper.html">
+        <h2>Paper</h2>
+        <p>Cream chassis, charcoal tickets. The only light-mode landing.</p>
+        <span class="btn btn-ghost">Open</span>
+      </a>
+      <a class="card" href="palette.html">
+        <h2>Palette</h2>
+        <p>Raycast energy. ⌘K, five commands, blobs as row icons.</p>
+        <span class="btn btn-ghost">Open</span>
+      </a>
+      <a class="card" href="roster.html">
+        <h2>Roster</h2>
+        <p>Six locked types as the page. Construction sheet as marketing.</p>
+        <span class="btn btn-ghost">Open</span>
+      </a>
+    </section>
+    <script src="fleet.js"></script>
+  </body>
+</html>

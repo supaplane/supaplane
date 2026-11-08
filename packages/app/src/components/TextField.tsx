@@ -14,7 +14,7 @@ export function TextField({ label, hint, error, style, ...rest }: Props) {
       <Text style={styles.label}>{label}</Text>
       <TextInput
         placeholderTextColor={colors.textDim}
-        selectionColor={colors.accent}
+        selectionColor={colors.borderFocus}
         style={[styles.input, error ? styles.inputError : null, style]}
         autoCapitalize="none"
         autoCorrect={false}
@@ -28,11 +28,12 @@ export function TextField({ label, hint, error, style, ...rest }: Props) {
 
 const styles = StyleSheet.create({
   wrapper: { gap: spacing.xs },
-  label: { ...typography.caption, color: colors.textMuted, textTransform: "uppercase" },
+  label: { ...typography.caption, color: colors.textMuted },
   input: {
-    backgroundColor: colors.surface,
+    minHeight: 44,
+    backgroundColor: colors.surfaceInset,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.border,
+    borderColor: colors.borderControl,
     borderRadius: radius.md,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
@@ -41,5 +42,5 @@ const styles = StyleSheet.create({
   },
   inputError: { borderColor: colors.danger },
   hint: { ...typography.caption, color: colors.textDim },
-  error: { ...typography.caption, color: colors.danger },
+  error: { ...typography.caption, color: colors.dangerText },
 });

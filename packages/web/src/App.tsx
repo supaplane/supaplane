@@ -44,7 +44,7 @@ export function App() {
   }, []);
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen flex-col bg-fold-bg text-fold-text">
       <ConnectionBanner
         connected={!!helloAck}
         serverId={helloAck?.serverId ?? null}
@@ -89,20 +89,20 @@ export function App() {
 
 function DiffPanel({ diff, onClose }: { diff: OpenDiff; onClose: () => void }) {
   return (
-    <section className="flex min-h-0 flex-1 flex-col bg-neutral-950">
-      <header className="flex items-center justify-between border-b border-neutral-800 bg-neutral-900/60 px-4 py-2">
+    <section className="flex min-h-0 flex-1 flex-col bg-fold-bg">
+      <header className="flex items-center justify-between border-b border-fold-border bg-fold-panel px-4 py-2">
         <div className="flex items-center gap-3">
-          <h2 className="font-mono text-sm text-neutral-200">{diff.name}</h2>
+          <h2 className="font-mono text-sm text-fold-text">{diff.name}</h2>
           {diff.prevName ? (
-            <span className="text-xs text-neutral-500">from {diff.prevName}</span>
+            <span className="text-xs text-fold-muted">from {diff.prevName}</span>
           ) : null}
-          <span className="rounded bg-neutral-800 px-2 py-0.5 text-[10px] uppercase text-neutral-400">
+          <span className="rounded bg-fold-elevated px-2 py-0.5 text-[10px] uppercase text-fold-subtle">
             {diff.source}
           </span>
         </div>
         <button
           onClick={onClose}
-          className="rounded border border-neutral-700 bg-neutral-950 px-3 py-1 text-xs text-neutral-200 hover:bg-neutral-900"
+          className="min-h-11 rounded-md border border-fold-border-control bg-fold-inset px-3 text-xs text-fold-text hover:bg-fold-elevated focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fold-accent"
         >
           Close
         </button>

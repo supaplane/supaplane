@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Supaplane · landing loops</title>
+    <style>
+      :root {
+        --ink: #f5f0e8;
+        --bg: #0a0a0a;
+        --muted: #8a8478;
+        --line: rgba(245, 240, 232, 0.12);
+        --amber: #e8b84a;
+        --navy: #163a5f;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+      }
+      body {
+        font:
+          15px/1.5 Inter,
+          "Helvetica Neue",
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 22px 28px;
+        border-bottom: 1px solid var(--line);
+      }
+      h1 {
+        margin: 0;
+        font-size: 13px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+      header a {
+        color: var(--muted);
+        font-size: 13px;
+        margin-left: 16px;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 28px 28px 80px;
+      }
+      h2 {
+        margin: 36px 0 12px;
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      p.lead {
+        max-width: 66ch;
+        color: var(--muted);
+      }
+      .hero {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        background: #0a0a0a;
+        margin: 18px 0 40px;
+      }
+      .hero video,
+      .hero img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .hero .copy {
+        position: absolute;
+        inset: 28px auto auto 32px;
+        max-width: 22ch;
+        pointer-events: none;
+      }
+      .hero h3 {
+        margin: 0;
+        font-size: clamp(28px, 5vw, 52px);
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+      }
+      .hero p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 18px;
+      }
+      figure {
+        margin: 0;
+        text-align: center;
+        background: var(--navy);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      figure video,
+      figure img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      figcaption {
+        padding: 10px 8px 14px;
+        font-size: 12px;
+        color: var(--muted);
+        background: #0a0a0a;
+      }
+      code {
+        font-size: 12px;
+        color: var(--amber);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        video {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Landing loops</h1>
+      <div>
+        <a href="../../preview.html">Passenger standard</a>
+      </div>
+    </header>
+    <main>
+      <p class="lead">
+        Six-second Imagine loops. Prefer <code>video</code> with
+        <code>autoplay muted loop playsinline</code> and the <code>.webm</code> first. GIFs are a
+        fallback. Body tints are a landing experiment; the locked sheet stays cream + navy.
+      </p>
+
+      <h2>Hero crowds</h2>
+
+      <section class="hero">
+        <video autoplay muted loop playsinline poster="posters/crowd-standing.png">
+          <source src="crowd-standing.webm" type="video/webm" />
+          <source src="crowd-standing.mp4" type="video/mp4" />
+        </video>
+        <div class="copy">
+          <h3>Standing</h3>
+          <p>Queue at the gate. Breathe, blink, feet planted.</p>
+        </div>
+      </section>
+
+      <section class="hero">
+        <video autoplay muted loop playsinline poster="posters/crowd-waiting.png">
+          <source src="crowd-waiting.webm" type="video/webm" />
+          <source src="crowd-waiting.mp4" type="video/mp4" />
+        </video>
+        <div class="copy">
+          <h3>Waiting</h3>
+          <p>Loitering, leaning, chatting.</p>
+        </div>
+      </section>
+
+      <section class="hero">
+        <video autoplay muted loop playsinline poster="posters/crowd-moving.png">
+          <source src="crowd-moving.webm" type="video/webm" />
+          <source src="crowd-moving.mp4" type="video/mp4" />
+        </video>
+        <div class="copy">
+          <h3>Moving</h3>
+          <p>Mid-stride. Suitcases rolling, plane on the arc.</p>
+        </div>
+      </section>
+
+      <h2>Sprites</h2>
+      <div class="grid">
+        <figure>
+          <video autoplay muted loop playsinline poster="posters/capsule-breathe.png">
+            <source src="capsule-breathe.webm" type="video/webm" />
+            <source src="capsule-breathe.mp4" type="video/mp4" />
+          </video>
+          <figcaption>Capsule · breathe</figcaption>
+        </figure>
+        <figure>
+          <video autoplay muted loop playsinline poster="posters/square-sway.png">
+            <source src="square-sway.webm" type="video/webm" />
+            <source src="square-sway.mp4" type="video/mp4" />
+          </video>
+          <figcaption>Square · sway</figcaption>
+        </figure>
+        <figure>
+          <video autoplay muted loop playsinline poster="posters/family-breathe.png">
+            <source src="family-breathe.webm" type="video/webm" />
+            <source src="family-breathe.mp4" type="video/mp4" />
+          </video>
+          <figcaption>Family · idle</figcaption>
+        </figure>
+      </div>
+
+      <h2>Drop-in</h2>
+      <p class="lead">
+        Files live next to this page. Use <code>.webm</code> (smallest) then <code>.mp4</code>.
+        Existing sheet loops stay in <code>docs/mascots/anim/</code> (bob, blink, walk2, wave).
+      </p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Supaplane · command palette</title>
+    <link rel="stylesheet" href="fleet.css" />
+    <link rel="stylesheet" href="pages.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="index.html">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 20 L21 12 L3 4 L8 12 Z" fill="#f5f0e8" />
+        </svg>
+        Supaplane
+      </a>
+      <nav class="nav-links">
+        <a href="bento.html">Bento</a>
+        <a href="paper.html">Paper</a>
+        <a href="roster.html">Roster</a>
+      </nav>
+      <a class="btn btn-signal" href="#">Download</a>
+    </header>
+
+    <main class="palette-hero">
+      <p class="eyebrow">Local-first control plane</p>
+      <h1 style="max-width: 18ch; font-size: clamp(32px, 5vw, 56px)">⌘K to fly.</h1>
+      <p class="lede">
+        Ask a coding agent. Land a PR. Pair a phone. The daemon stays on your machine.
+      </p>
+
+      <div class="palette" role="listbox" aria-label="Command palette">
+        <div class="palette-search">
+          <span>Ask a coding agent…</span>
+          <kbd>⌘K</kbd>
+        </div>
+        <div class="palette-row on">
+          <div class="unit">
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              poster="../../anim/landing/sprites/cream-round-blink-poster.png"
+            >
+              <source src="../../anim/landing/sprites/cream-round-blink.webm" type="video/webm" />
+              <source src="../../anim/landing/sprites/cream-round-blink.mp4" type="video/mp4" />
+            </video>
+            <img class="fallback" src="../../anim/landing/sprites/cream-round-plane.png" alt="" />
+          </div>
+          <span>Open worktree</span>
+          <span class="hint">↵</span>
+        </div>
+        <div class="palette-row">
+          <div class="unit">
+            <img src="../../anim/landing/sprites/gold-round-plane.png" alt="" />
+          </div>
+          <span>Land the PR</span>
+          <span class="hint">⌘L</span>
+        </div>
+        <div class="palette-row">
+          <div class="unit"><img src="../../anim/landing/sprites/sky-oval.png" alt="" /></div>
+          <span>Switch harness</span>
+          <span class="hint">⌘H</span>
+        </div>
+        <div class="palette-row">
+          <div class="unit"><img src="../../anim/landing/sprites/blush-capsule.png" alt="" /></div>
+          <span>Pair a phone</span>
+          <span class="hint">⌘P</span>
+        </div>
+        <div class="palette-row">
+          <div class="unit">
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              poster="../../anim/landing/sprites/sage-walk-poster.png"
+            >
+              <source src="../../anim/landing/sprites/sage-walk.webm" type="video/webm" />
+              <source src="../../anim/landing/sprites/sage-walk.mp4" type="video/mp4" />
+            </video>
+            <img class="fallback" src="../../anim/landing/sprites/sage-walk.png" alt="" />
+          </div>
+          <span>Fork the daemon</span>
+          <span class="hint">⌘F</span>
+        </div>
+      </div>
+
+      <div class="palette-peeks" aria-hidden="true">
+        <div class="unit sm bob">
+          <img src="../../anim/landing/sprites/cream-tiny.png" alt="" />
+        </div>
+        <div class="unit md">
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            poster="../../anim/landing/sprites/terra-wave-poster.png"
+          >
+            <source src="../../anim/landing/sprites/terra-wave.webm" type="video/webm" />
+            <source src="../../anim/landing/sprites/terra-wave.mp4" type="video/mp4" />
+          </video>
+          <img class="fallback" src="../../anim/landing/sprites/terra-wave.png" alt="" />
+        </div>
+        <div class="unit md sway-slow">
+          <img src="../../anim/landing/sprites/cream-square.png" alt="" />
+        </div>
+      </div>
+    </main>
+    <script src="fleet.js"></script>
+  </body>
+</html>

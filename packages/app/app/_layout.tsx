@@ -15,7 +15,12 @@ export default function RootLayout(): React.JSX.Element {
   }, [hydrate]);
 
   useEffect(() => {
-    if (status === "idle" || status === "disconnected" || status === "error" || status === "exhausted") {
+    if (
+      status === "idle" ||
+      status === "disconnected" ||
+      status === "error" ||
+      status === "exhausted"
+    ) {
       router.replace("/connect");
     } else if (status === "connected" || status === "connecting" || status === "reconnecting") {
       router.replace("/sessions");

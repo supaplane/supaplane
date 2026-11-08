@@ -12,11 +12,11 @@ export function ConnectionBanner() {
 
   const tone =
     status === "connected"
-      ? { bg: "#0e2a22", fg: colors.success }
+      ? { bg: colors.surfaceSuccess, fg: colors.success }
       : status === "error" || status === "exhausted"
-        ? { bg: "#2a0e0e", fg: colors.danger }
+        ? { bg: colors.surfaceDanger, fg: colors.dangerText }
         : status === "reconnecting" || status === "connecting"
-          ? { bg: "#1a1a2a", fg: colors.warning }
+          ? { bg: colors.surfaceWarning, fg: colors.warning }
           : { bg: colors.surface, fg: colors.textMuted };
 
   let label: string;

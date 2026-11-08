@@ -45,7 +45,7 @@ export function DiffView({ name, before, after, prevName, layout = "split", clas
       <div
         className={
           className ??
-          "flex h-full w-full items-center justify-center bg-neutral-950 text-sm text-neutral-500"
+          "flex h-full w-full items-center justify-center bg-fold-bg text-sm text-fold-muted"
         }
       >
         No changes — both sides are identical.
@@ -54,7 +54,7 @@ export function DiffView({ name, before, after, prevName, layout = "split", clas
   }
 
   return (
-    <div className={className ?? "h-full w-full overflow-auto bg-neutral-950"}>
+    <div className={className ?? "h-full w-full overflow-auto bg-fold-bg"}>
       {/*
         The pierre renderer exposes a custom-element-backed React component.
         The TypeScript JSX checker in React 19 rejects its component type, so
@@ -66,7 +66,13 @@ export function DiffView({ name, before, after, prevName, layout = "split", clas
   );
 }
 
-function RenderFileDiff({ fileDiff, layout }: { fileDiff: FileDiffMetadata; layout: "split" | "unified" }) {
+function RenderFileDiff({
+  fileDiff,
+  layout,
+}: {
+  fileDiff: FileDiffMetadata;
+  layout: "split" | "unified";
+}) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Fd = FileDiff as unknown as React.ComponentType<{
     fileDiff: FileDiffMetadata;

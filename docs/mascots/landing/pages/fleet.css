@@ -1,0 +1,193 @@
+/* Shared fleet. Stills + a few loops. Motion is GPU transforms or ping-pong video. */
+:root {
+  --ink: #0a0a0a;
+  --charcoal: #121212;
+  --panel: #1a1a1a;
+  --elevated: #242424;
+  --line: #333333;
+  --paper: #f5f0e8;
+  --paper-2: #e8e0d4;
+  --fog: #a8a29e;
+  --muted: #8f8983;
+  --signal: #e8b33d;
+  --signal-hover: #f2c25c;
+}
+
+.fleet {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+.fleet .unit {
+  position: relative;
+  flex: 0 0 auto;
+  margin: 0 -6px;
+  line-height: 0;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+.fleet .unit img,
+.fleet .unit video {
+  display: block;
+  height: var(--h, 168px);
+  width: auto;
+  background: transparent;
+  object-fit: contain;
+  transform: translateZ(0);
+}
+.fleet .unit video {
+  /* Keep the decode on its own compositor layer. */
+  isolation: isolate;
+}
+.fleet .unit img.fallback {
+  display: none;
+}
+.fleet .lg {
+  --h: 196px;
+}
+.fleet .md {
+  --h: 158px;
+}
+.fleet .sm {
+  --h: 118px;
+}
+.fleet .xs {
+  --h: 64px;
+}
+.fleet .front {
+  z-index: 2;
+}
+.fleet .back {
+  z-index: 0;
+}
+
+.fleet .bob,
+.fleet .bob-slow,
+.fleet .bob-late,
+.fleet .sway,
+.fleet .sway-slow,
+.fleet .breathe,
+.tile .bob,
+.tile .bob-slow,
+.tile .bob-late,
+.tile .sway,
+.tile .sway-slow,
+.tile .breathe,
+.palette-peeks .bob,
+.palette-peeks .sway-slow {
+  animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  animation-iteration-count: infinite;
+}
+
+.fleet .bob,
+.tile .bob,
+.palette-peeks .bob {
+  animation-name: fleet-bob;
+  animation-duration: 5.6s;
+}
+.fleet .bob-slow,
+.tile .bob-slow {
+  animation-name: fleet-bob;
+  animation-duration: 7.4s;
+  animation-delay: -2.1s;
+}
+.fleet .bob-late,
+.tile .bob-late {
+  animation-name: fleet-bob;
+  animation-duration: 6.3s;
+  animation-delay: -3.4s;
+}
+.fleet .sway,
+.tile .sway {
+  animation-name: fleet-sway;
+  animation-duration: 8s;
+  transform-origin: 50% 100%;
+}
+.fleet .sway-slow,
+.tile .sway-slow,
+.palette-peeks .sway-slow {
+  animation-name: fleet-sway;
+  animation-duration: 9.6s;
+  animation-delay: -2.8s;
+  transform-origin: 50% 100%;
+}
+.fleet .breathe,
+.tile .breathe {
+  animation-name: fleet-breathe;
+  animation-duration: 6.8s;
+  transform-origin: 50% 88%;
+  animation-delay: -1.2s;
+}
+
+@keyframes fleet-bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -5px, 0);
+  }
+}
+@keyframes fleet-sway {
+  0%,
+  100% {
+    transform: rotate(-1.15deg) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: rotate(1.15deg) translate3d(0, -3px, 0);
+  }
+}
+@keyframes fleet-breathe {
+  0%,
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    transform: scale3d(1.02, 0.985, 1);
+  }
+}
+
+@media (max-width: 900px) {
+  .fleet .lg {
+    --h: 150px;
+  }
+  .fleet .md {
+    --h: 118px;
+  }
+  .fleet .sm {
+    --h: 92px;
+  }
+  .fleet .xs {
+    --h: 56px;
+  }
+  .fleet .unit {
+    margin: 0 -10px;
+  }
+}
+@media (max-width: 640px) {
+  .fleet .hide-sm {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fleet .bob,
+  .fleet .bob-slow,
+  .fleet .bob-late,
+  .fleet .sway,
+  .fleet .sway-slow,
+  .fleet .breathe {
+    animation: none;
+  }
+  .fleet video {
+    display: none;
+  }
+  .fleet .unit img.fallback {
+    display: block;
+  }
+}

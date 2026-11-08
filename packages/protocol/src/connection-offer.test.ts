@@ -30,7 +30,9 @@ describe("connection-offer", () => {
   });
 
   it("throws on a malformed payload in the fragment", () => {
-    expect(() => parseConnectionOfferFromUrl("https://app.supaplane.com/#offer=not-json")).toThrow();
+    expect(() =>
+      parseConnectionOfferFromUrl("https://app.supaplane.com/#offer=not-json"),
+    ).toThrow();
   });
 
   it("validates the v field is a literal 2", () => {

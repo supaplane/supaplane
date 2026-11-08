@@ -139,9 +139,7 @@ export const useConnectionStore = create<ConnectionState>((set, get) => ({
 
       const savedServer = fingerprint ? await loadTrustedServer() : null;
       const isTrusted =
-        fingerprint !== null &&
-        savedServer !== null &&
-        savedServer.fingerprint === fingerprint;
+        fingerprint !== null && savedServer !== null && savedServer.fingerprint === fingerprint;
 
       if (fingerprint && isTrusted) {
         await saveTrustedServer({ serverId: ack.serverId, fingerprint });

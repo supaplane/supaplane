@@ -25,11 +25,12 @@ export function Button({ label, onPress, disabled, loading, variant = "primary" 
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={colors.text} />
+        <ActivityIndicator color={variant === "primary" ? colors.textOnAccent : colors.text} />
       ) : (
         <Text
           style={[
             styles.label,
+            variant === "primary" && styles.labelPrimary,
             variant === "secondary" && styles.labelSecondary,
             variant === "danger" && styles.labelDanger,
           ]}
@@ -55,12 +56,13 @@ const styles = StyleSheet.create({
   secondary: {
     backgroundColor: colors.surfaceRaised,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.border,
+    borderColor: colors.borderControl,
   },
   danger: { backgroundColor: colors.danger },
   disabled: { opacity: 0.4 },
   pressed: { opacity: 0.8 },
   label: { ...typography.body, fontWeight: "600" },
+  labelPrimary: { color: colors.textOnAccent },
   labelSecondary: { color: colors.text },
-  labelDanger: { color: "#1f1014" },
+  labelDanger: { color: colors.textOnAccent },
 });

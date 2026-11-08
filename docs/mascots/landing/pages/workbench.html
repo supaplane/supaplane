@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Supaplane · bring your own sub</title>
+    <link rel="stylesheet" href="fleet.css" />
+    <link rel="stylesheet" href="pages.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="index.html">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 20 L21 12 L3 4 L8 12 Z" fill="#f5f0e8" />
+        </svg>
+        Supaplane
+      </a>
+      <nav class="nav-links">
+        <a href="bento.html">Bento</a>
+        <a href="t3.html">T3</a>
+        <a href="fork.html">Open source</a>
+      </nav>
+      <a class="btn btn-signal" href="#">Open locally</a>
+    </header>
+
+    <main class="hero split">
+      <div>
+        <p style="color: var(--signal); margin: 0 0 10px; font-size: 13px; font-weight: 500">
+          BYO harness
+        </p>
+        <h1>Bring your own sub.</h1>
+        <p class="lede">
+          Plug in Claude Code, Codex, OpenCode, Cursor. We fly them. You keep the plan.
+        </p>
+        <div class="actions">
+          <a class="btn btn-signal" href="#">Open locally</a>
+          <a class="btn btn-ghost" href="#">Read the protocol</a>
+        </div>
+        <div class="pills">
+          <span class="pill">Claude Code</span>
+          <span class="pill">Codex</span>
+          <span class="pill">OpenCode</span>
+          <span class="pill">Cursor</span>
+        </div>
+      </div>
+      <div class="app" aria-hidden="true">
+        <div class="app-bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span
+          ><span style="margin-left: 8px">Supaplane Workbench</span>
+        </div>
+        <div class="app-body">
+          <div class="side">
+            <div class="on">Plan</div>
+            <div>Runs</div>
+            <div>Harnesses</div>
+            <div>Files</div>
+          </div>
+          <div class="main">
+            <div class="row">
+              <span>Outline the implementation approach.</span><span class="live">Live</span>
+            </div>
+            <div class="row">
+              <span>Claude Code · I'll scan the codebase.</span><span>10:41</span>
+            </div>
+            <div class="row"><span>Read · Opened 12 files</span><span>10:41</span></div>
+            <div class="row"><span>Here's the plan and next steps.</span><span>10:43</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="stage">
+      <div class="fleet" aria-hidden="true">
+        <div class="unit md sway"><img src="../../anim/landing/sprites/sky-oval.png" alt="" /></div>
+        <div class="unit lg breathe">
+          <img src="../../anim/landing/sprites/cream-capsule.png" alt="" />
+        </div>
+        <div class="unit sm bob">
+          <img src="../../anim/landing/sprites/blush-capsule.png" alt="" />
+        </div>
+        <div class="unit xs bob-slow">
+          <img src="../../anim/landing/sprites/cream-tiny.png" alt="" />
+        </div>
+        <div class="unit md">
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            poster="../../anim/landing/sprites/cream-round-blink-poster.png"
+          >
+            <source src="../../anim/landing/sprites/cream-round-blink.webm" type="video/webm" />
+            <source src="../../anim/landing/sprites/cream-round-blink.mp4" type="video/mp4" />
+          </video>
+          <img class="fallback" src="../../anim/landing/sprites/cream-round-plane.png" alt="" />
+        </div>
+        <div class="unit md hide-sm bob-late">
+          <img src="../../anim/landing/sprites/gold-round-plane.png" alt="" />
+        </div>
+        <div class="unit md">
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            poster="../../anim/landing/sprites/terra-wave-poster.png"
+          >
+            <source src="../../anim/landing/sprites/terra-wave.webm" type="video/webm" />
+            <source src="../../anim/landing/sprites/terra-wave.mp4" type="video/mp4" />
+          </video>
+          <img class="fallback" src="../../anim/landing/sprites/terra-wave.png" alt="" />
+        </div>
+        <div class="unit md sway-slow">
+          <img src="../../anim/landing/sprites/cream-square.png" alt="" />
+        </div>
+      </div>
+    </div>
+    <script src="fleet.js"></script>
+  </body>
+</html>

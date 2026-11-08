@@ -1,11 +1,31 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "../../../docs/fold-tokens.css";
 
 @theme {
-  --color-supaplane-bg: #0a0a0f;
-  --color-supaplane-surface: #14141c;
-  --color-supaplane-accent: #7c3aed;
-  --color-supaplane-accent-soft: #5b21b6;
+  --color-fold-bg: var(--fold-bg-app);
+  --color-fold-panel: var(--fold-bg-panel);
+  --color-fold-elevated: var(--fold-bg-elevated);
+  --color-fold-inset: var(--fold-bg-inset);
+  --color-fold-border: var(--fold-border-hairline);
+  --color-fold-border-subtle: var(--fold-border-subtle);
+  --color-fold-border-control: var(--fold-border-control);
+  --color-fold-text: var(--fold-text-primary);
+  --color-fold-text-secondary: var(--fold-text-secondary);
+  --color-fold-muted: var(--fold-text-muted);
+  --color-fold-subtle: var(--fold-text-subtle);
+  --color-fold-accent: var(--fold-accent);
+  --color-fold-accent-hover: var(--fold-accent-hover);
+  --color-fold-on-accent: var(--fold-text-on-accent);
+  --color-fold-success: var(--fold-text-success);
+  --color-fold-error: var(--fold-text-error);
+  --color-fold-live: var(--fold-state-live);
+  --color-fold-passenger-cream: var(--fold-passenger-cream);
+  --color-fold-passenger-navy: var(--fold-passenger-navy);
+  --color-supaplane-bg: var(--fold-bg-app);
+  --color-supaplane-surface: var(--fold-bg-panel);
+  --color-supaplane-accent: var(--fold-accent);
+  --color-supaplane-accent-soft: var(--fold-accent-hover);
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", "Cascadia Code", monospace;
 }
@@ -14,4 +34,58 @@ html,
 body,
 #root {
   height: 100%;
+}
+
+/* Fold loading motion. The egg never spins. Working turns only the amber
+ * moon; idle blinks the eyes. Reduced motion freezes both. */
+@keyframes fold-orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fold-dot-fade {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes fold-idle-blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  92%,
+  96% {
+    transform: scaleY(0.12);
+  }
+}
+
+.fold-orbit-rotor {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: fold-orbit-spin 1.2s linear infinite;
+}
+
+.fold-thinking-dot {
+  animation: fold-dot-fade 1s ease-in-out infinite;
+}
+
+.fold-idle-blink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: fold-idle-blink 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fold-orbit-rotor,
+  .fold-thinking-dot,
+  .fold-idle-blink {
+    animation: none;
+  }
 }

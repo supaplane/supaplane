@@ -28,7 +28,7 @@ export function MarkdownView({ source, className }: Props) {
     <div
       className={
         className ??
-        "markdown-body text-sm leading-relaxed text-neutral-200 [&_a]:text-supaplane-accent [&_a]:underline [&_code]:rounded [&_code]:bg-neutral-800 [&_code]:px-1 [&_code]:font-mono [&_code]:text-xs [&_h1]:mb-2 [&_h1]:mt-4 [&_h1]:text-lg [&_h1]:font-semibold [&_h2]:mb-2 [&_h2]:mt-4 [&_h2]:text-base [&_h2]:font-semibold [&_h3]:mb-1 [&_h3]:mt-3 [&_h3]:text-sm [&_h3]:font-semibold [&_li]:ml-4 [&_li]:list-disc [&_p]:my-2 [&_pre]:my-2 [&_pre]:overflow-x-auto [&_pre]:rounded [&_pre]:bg-neutral-900 [&_pre]:p-3 [&_strong]:font-semibold [&_ul]:my-2"
+        "markdown-body text-sm leading-relaxed text-fold-text [&_a]:text-fold-accent [&_a]:underline [&_code]:rounded [&_code]:bg-fold-elevated [&_code]:px-1 [&_code]:font-mono [&_code]:text-xs [&_h1]:mb-2 [&_h1]:mt-4 [&_h1]:text-lg [&_h1]:font-semibold [&_h2]:mb-2 [&_h2]:mt-4 [&_h2]:text-base [&_h2]:font-semibold [&_h3]:mb-1 [&_h3]:mt-3 [&_h3]:text-sm [&_h3]:font-semibold [&_li]:ml-4 [&_li]:list-disc [&_p]:my-2 [&_pre]:my-2 [&_pre]:overflow-x-auto [&_pre]:rounded [&_pre]:bg-fold-panel [&_pre]:p-3 [&_strong]:font-semibold [&_ul]:my-2"
       }
       // The HTML is produced by markdown-it with html:false, so the only
       // elements that can appear are the CommonMark tag set plus linkify

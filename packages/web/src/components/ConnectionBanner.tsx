@@ -1,3 +1,6 @@
+import { ActivityMark } from "./ActivityMark.js";
+import { StatusChip } from "./StatusChip.js";
+
 interface Props {
   connected: boolean;
   serverId: string | null;
@@ -5,23 +8,35 @@ interface Props {
 }
 
 export function ConnectionBanner({ connected, serverId, error }: Props) {
-  const label = error
-    ? `Disconnected — ${error}`
-    : connected
-      ? `Connected to ${serverId ?? "unknown server"}`
-      : "Connecting…";
-  const tone = error
-    ? "bg-red-950 text-red-200"
-    : connected
-      ? "bg-emerald-950 text-emerald-200"
-      : "bg-neutral-900 text-neutral-300";
-
+  if (error !== null) {
+    return (
+      <header className="flex min-h-11 items-center justify-between border-b border-fold-border bg-fold-panel px-4 text-sm">
+        <span className="flex items-center gap-2 font-mono text-fold-error">
+          <span aria-hidden="true">✕</span>
+          <span>Disconnected — {error}</span>
+        </span>
+        <StatusChip tone="error" label="Offline" />
+      </header>
+    );
+  }
+  if (!connected) {
+    return (
+      <header className="flex min-h-11 items-center justify-between border-b border-fold-border bg-fold-panel px-4 text-sm">
+        <span className="flex items-center gap-2 font-mono text-fold-text-secondary">
+          <ActivityMark state="working" label="Connecting" />
+          <span>Connecting…</span>
+        </span>
+        <StatusChip tone="live" label="Connecting" />
+      </header>
+    );
+  }
   return (
-    <header
-      className={`flex items-center justify-between border-b border-neutral-800 px-4 py-2 text-sm ${tone}`}
-    >
-      <span className="font-mono">{label}</span>
-      <span className="text-xs opacity-60">Supaplane web</span>
+    <header className="flex min-h-11 items-center justify-between border-b border-fold-border bg-fold-panel px-4 text-sm">
+      <span className="flex items-center gap-2 font-mono text-fold-text-secondary">
+        <ActivityMark state="idle" label="Connected" />
+        <span>Connected to {serverId ?? "unknown server"}</span>
+      </span>
+      <StatusChip tone="landed" label="Live" />
     </header>
   );
 }

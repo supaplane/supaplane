@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Supaplane · passenger standard</title>
+    <style>
+      :root {
+        --ink: #0a0a0a;
+        --paper: #f5f0e8;
+        --muted: #8a8478;
+        --line: rgba(10, 10, 10, 0.12);
+        --navy: #163a5f;
+        --cream: #ede3c4;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+      }
+      body {
+        font:
+          15px/1.5 Inter,
+          "Helvetica Neue",
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 22px 28px;
+        border-bottom: 1px solid var(--line);
+      }
+      h1 {
+        margin: 0;
+        font-size: 13px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+      header a {
+        color: var(--muted);
+        font-size: 13px;
+        margin-left: 16px;
+      }
+      main {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 28px 28px 80px;
+      }
+      h2 {
+        margin: 36px 0 12px;
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      p.lead {
+        max-width: 66ch;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      th {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .sw {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        vertical-align: -2px;
+        margin-right: 6px;
+        border: 1px solid var(--line);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 18px;
+      }
+      figure {
+        margin: 0;
+        text-align: center;
+      }
+      figure img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+      }
+      figcaption {
+        margin-top: 8px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      ul {
+        max-width: 70ch;
+      }
+      li {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Passenger standard</h1>
+      <div>
+        <a href="./landing/pages/index.html">Landing pages</a>
+        <a href="./anim/landing/preview.html">Landing loops</a>
+        <a href="./anim/round-bob.gif">Sheet loops</a>
+      </div>
+    </header>
+    <main>
+      <p class="lead">
+        These Imagine drawings are the model sheet. Draw or generate to match them. Don’t rebuild
+        them as stiff SVG sausages. The source of truth is the picture, not the rig.
+      </p>
+
+      <h2>Palette</h2>
+      <table>
+        <tr>
+          <th>Role</th>
+          <th>Hex</th>
+          <th>Use</th>
+        </tr>
+        <tr>
+          <td><span class="sw" style="background: #163a5f"></span>Navy field</td>
+          <td>#163A5F</td>
+          <td>Tile, eyes, smile, drawn arms, plane crease</td>
+        </tr>
+        <tr>
+          <td><span class="sw" style="background: #ede3c4"></span>Cream</td>
+          <td>#EDE3C4</td>
+          <td>Body, legs, suitcase fill</td>
+        </tr>
+      </table>
+      <p>Two colors. No third. No outline around the body — navy is the outline.</p>
+
+      <h2>How to draw them</h2>
+      <ul>
+        <li>Body is one cream silhouette. Soft, slightly uneven is fine. That’s the life.</li>
+        <li>Face: two small dots, shallow smile. Never pupils, brows, or a filled mouth.</li>
+        <li>
+          Arms that hold something are <strong>navy strokes on the body</strong>, not cream sausages
+          sticking out.
+        </li>
+        <li>A waving or walking arm can be cream, still part of the silhouette.</li>
+        <li>The paper plane on the chest is a navy line drawing of the official fold.</li>
+        <li>A suitcase is cream fill, same weight as the body. Handle can be a navy stroke.</li>
+        <li>Never bag and plane on the same figure.</li>
+        <li>Families mix shapes. Same face on every size.</li>
+      </ul>
+
+      <h2>Types (locked)</h2>
+      <div class="grid">
+        <figure>
+          <img src="./stills/round-plane.png" alt="" />
+          <figcaption>Round · plane on the body</figcaption>
+        </figure>
+        <figure>
+          <img src="./stills/oval-plane.png" alt="" />
+          <figcaption>Oval · both arms drawn</figcaption>
+        </figure>
+        <figure>
+          <img src="./stills/wave.png" alt="" />
+          <figcaption>Wave · cream arm</figcaption>
+        </figure>
+        <figure>
+          <img src="./stills/capsule-case.png" alt="" />
+          <figcaption>Capsule · case</figcaption>
+        </figure>
+        <figure>
+          <img src="./stills/square-case.png" alt="" />
+          <figcaption>Square · case</figcaption>
+        </figure>
+        <figure>
+          <img src="./stills/walk-case.png" alt="" />
+          <figcaption>Walk · case</figcaption>
+        </figure>
+      </div>
+
+      <h2>Together</h2>
+      <div class="grid" style="grid-template-columns: 1fr 1fr">
+        <figure>
+          <img src="./stills/pair.png" alt="" />
+          <figcaption>Pair · tall + round</figcaption>
+        </figure>
+        <figure>
+          <img src="./stills/family.png" alt="" />
+          <figcaption>Family</figcaption>
+        </figure>
+      </div>
+
+      <h2>How to make more</h2>
+      <p class="lead">
+        Prompt Imagine from one of these pictures. Ask for the same cream, same navy, same face.
+        Change only the body type or the prop. Then pick the frame that still matches this sheet.
+        Don’t vector-rebuild unless a pose has to loop in the app — and even then, trace this
+        drawing, don’t invent a new one.
+      </p>
+    </main>
+  </body>
+</html>

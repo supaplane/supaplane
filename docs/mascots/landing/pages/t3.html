@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Supaplane · local-first control plane</title>
+    <link rel="stylesheet" href="fleet.css" />
+    <link rel="stylesheet" href="pages.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="index.html">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 20 L21 12 L3 4 L8 12 Z" fill="#f5f0e8" />
+        </svg>
+        Supaplane
+      </a>
+      <nav class="nav-links">
+        <a href="bento.html">Bento</a>
+        <a href="workbench.html">Workbench</a>
+        <a href="fork.html">Open source</a>
+      </nav>
+      <a class="btn btn-signal" href="#">Download for macOS</a>
+    </header>
+
+    <main class="hero">
+      <h1>The local-first control plane for coding agents.</h1>
+      <p class="lede">
+        Supaplane runs on your machine, talks to your agents, and keeps you in control.
+      </p>
+      <div class="actions">
+        <a class="btn btn-signal" href="#">Steal the daemon (MIT)</a>
+      </div>
+    </main>
+
+    <div class="stage">
+      <div class="fleet" aria-hidden="true">
+        <div class="unit lg breathe">
+          <img src="../../anim/landing/sprites/cream-capsule.png" alt="" />
+        </div>
+        <div class="unit md bob">
+          <img src="../../anim/landing/sprites/blush-capsule.png" alt="" />
+        </div>
+        <div class="unit md front bob-late">
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            poster="../../anim/landing/sprites/sage-walk-poster.png"
+          >
+            <source src="../../anim/landing/sprites/sage-walk.webm" type="video/webm" />
+            <source src="../../anim/landing/sprites/sage-walk.mp4" type="video/mp4" />
+          </video>
+          <img class="fallback" src="../../anim/landing/sprites/sage-walk.png" alt="" />
+        </div>
+        <div class="unit xs front bob-slow">
+          <img src="../../anim/landing/sprites/cream-tiny.png" alt="" />
+        </div>
+        <div class="unit sm">
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            poster="../../anim/landing/sprites/cream-round-blink-poster.png"
+          >
+            <source src="../../anim/landing/sprites/cream-round-blink.webm" type="video/webm" />
+            <source src="../../anim/landing/sprites/cream-round-blink.mp4" type="video/mp4" />
+          </video>
+          <img class="fallback" src="../../anim/landing/sprites/cream-round-plane.png" alt="" />
+        </div>
+        <div class="unit lg hide-sm back sway">
+          <img src="../../anim/landing/sprites/sky-oval.png" alt="" />
+        </div>
+        <div class="unit md">
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            poster="../../anim/landing/sprites/terra-wave-poster.png"
+          >
+            <source src="../../anim/landing/sprites/terra-wave.webm" type="video/webm" />
+            <source src="../../anim/landing/sprites/terra-wave.mp4" type="video/mp4" />
+          </video>
+          <img class="fallback" src="../../anim/landing/sprites/terra-wave.png" alt="" />
+        </div>
+        <div class="unit sm bob-slow hide-sm">
+          <img src="../../anim/landing/sprites/gold-round-plane.png" alt="" />
+        </div>
+        <div class="unit md sway-slow">
+          <img src="../../anim/landing/sprites/cream-square.png" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <section class="tweets">
+      <article class="tweet">
+        <header><b>Theo</b> · 3h</header>
+        the missing control plane for local-first agent infra. Beautiful.
+      </article>
+      <article class="tweet">
+        <header><b>shadcn</b> · 5h</header>
+        finally a tool that respects your machine and your workflow.
+      </article>
+      <article class="tweet">
+        <header><b>rauchg</b> · 8h</header>
+        feels like docker compose for AI agents. love the vibe.
+      </article>
+      <article class="tweet">
+        <header><b>Addy</b> · 11h</header>
+        local-first, open source, and actually thoughtful.
+      </article>
+      <article class="tweet">
+        <header><b>Swyx</b> · 14h</header>
+        steal the daemon. 10/10 README.
+      </article>
+      <article class="tweet">
+        <header><b>Ethan</b> · 1d</header>
+        runs locally, stays out of your way.
+      </article>
+    </section>
+    <script src="fleet.js"></script>
+  </body>
+</html>

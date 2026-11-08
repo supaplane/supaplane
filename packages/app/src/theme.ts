@@ -1,17 +1,27 @@
 export const colors = {
-  bg: "#0a0a0f",
-  surface: "#111118",
-  surfaceRaised: "#181822",
-  border: "#26263a",
-  text: "#e5e5e5",
-  textMuted: "#a3a3a3",
-  textDim: "#6b6b7b",
-  accent: "#7c5cff",
-  accentSoft: "#9d83ff",
-  success: "#34d399",
-  warning: "#fbbf24",
-  danger: "#f87171",
-  info: "#60a5fa",
+  bg: "#121212",
+  surface: "#1a1a1a",
+  surfaceRaised: "#242424",
+  surfaceInset: "#0a0a0a",
+  surfaceSuccess: "#163226",
+  surfaceWarning: "#2a2210",
+  surfaceDanger: "#2a1616",
+  border: "#333333",
+  borderSubtle: "#2b2b2b",
+  borderControl: "#827d77",
+  borderFocus: "#e8b33d",
+  text: "#f5f0e8",
+  textSecondary: "#cfc9c1",
+  textMuted: "#a8a29e",
+  textDim: "#8f8983",
+  textOnAccent: "#0a0a0a",
+  accent: "#e8b33d",
+  accentSoft: "#f2c25c",
+  success: "#69c69b",
+  warning: "#e8b33d",
+  danger: "#c45c5c",
+  dangerText: "#f09090",
+  info: "#cfc9c1",
 } as const;
 
 export const spacing = {
@@ -25,8 +35,8 @@ export const spacing = {
 
 export const radius = {
   sm: 6,
-  md: 10,
-  lg: 14,
+  md: 8,
+  lg: 12,
   pill: 999,
 } as const;
 
@@ -36,6 +46,6 @@ export const typography = {
   body: { fontSize: 15, color: colors.text },
   bodyMuted: { fontSize: 15, color: colors.textMuted },
   caption: { fontSize: 12, color: colors.textMuted },
-  mono: { fontSize: 13, fontFamily: "Menlo", color: colors.text },
-  monoDim: { fontSize: 12, fontFamily: "Menlo", color: colors.textDim },
+  mono: { fontSize: 13, fontFamily: "JetBrains Mono", color: colors.text },
+  monoDim: { fontSize: 12, fontFamily: "JetBrains Mono", color: colors.textDim },
 } as const;
