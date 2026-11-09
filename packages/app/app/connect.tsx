@@ -43,7 +43,9 @@ export default function ConnectScreen() {
     setValidation(null);
     const trimmedLabel = label.trim();
     await connect(
-      trimmedLabel ? { endpoint: endpoint.trim(), label: trimmedLabel } : { endpoint: endpoint.trim() },
+      trimmedLabel
+        ? { endpoint: endpoint.trim(), label: trimmedLabel }
+        : { endpoint: endpoint.trim() },
     );
   };
 
@@ -54,10 +56,7 @@ export default function ConnectScreen() {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={styles.flex}
       >
-        <ScrollView
-          contentContainerStyle={styles.content}
-          keyboardShouldPersistTaps="handled"
-        >
+        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
           <View style={styles.header}>
             <Text style={typography.display}>Supaplane</Text>
             <Text style={[typography.bodyMuted, styles.lede]}>{helper}</Text>
@@ -92,11 +91,7 @@ export default function ConnectScreen() {
             {isConnected ? (
               <>
                 <Button label="Open sessions" onPress={() => router.push("/sessions")} />
-                <Button
-                  label="Disconnect"
-                  onPress={disconnect}
-                  variant="secondary"
-                />
+                <Button label="Disconnect" onPress={disconnect} variant="secondary" />
               </>
             ) : (
               <Button

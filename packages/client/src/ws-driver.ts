@@ -165,7 +165,10 @@ export class WsDriver {
     }
   }
 
-  #emit<E extends keyof SupaplaneClientEventMap>(event: E, payload: SupaplaneClientEventMap[E]): void {
+  #emit<E extends keyof SupaplaneClientEventMap>(
+    event: E,
+    payload: SupaplaneClientEventMap[E],
+  ): void {
     const set = this.#listeners.get(event);
     if (!set) return;
     for (const listener of set) {

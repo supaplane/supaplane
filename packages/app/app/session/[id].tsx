@@ -21,7 +21,12 @@ import { colors, radius, spacing, typography } from "../../src/theme.js";
 export default function SessionScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ id: string }>();
-  const workspaceId = typeof params.id === "string" ? params.id : Array.isArray(params.id) ? (params.id[0] ?? "") : "";
+  const workspaceId =
+    typeof params.id === "string"
+      ? params.id
+      : Array.isArray(params.id)
+        ? (params.id[0] ?? "")
+        : "";
 
   const workspace = useConnectionStore((s) =>
     workspaceId ? (s.workspaces.get(workspaceId) ?? null) : null,
@@ -134,10 +139,7 @@ export default function SessionScreen() {
             </Text>
           ) : (
             events.map((event, index) => (
-              <TranscriptLine
-                key={`${event.type}-${index}-${event.ts}`}
-                event={event}
-              />
+              <TranscriptLine key={`${event.type}-${index}-${event.ts}`} event={event} />
             ))
           )}
         </ScrollView>
@@ -182,9 +184,7 @@ export default function SessionScreen() {
               ) : (
                 <Button label="Start" onPress={start} disabled={!client || !workspace} />
               )}
-              {activeSession ? (
-                <Button label="Abort" onPress={abort} variant="danger" />
-              ) : null}
+              {activeSession ? <Button label="Abort" onPress={abort} variant="danger" /> : null}
             </View>
           </View>
         </View>
@@ -214,7 +214,9 @@ function TranscriptLine({ event }: { event: AgentEvent }) {
       return (
         <View style={styles.line}>
           <Text style={[styles.lineKind, styles.toolKind]}>tool</Text>
-          <Text style={styles.lineText}>✓ {event.toolCallId} · {event.durationMs}ms</Text>
+          <Text style={styles.lineText}>
+            ✓ {event.toolCallId} · {event.durationMs}ms
+          </Text>
         </View>
       );
     case "status":
@@ -228,7 +230,9 @@ function TranscriptLine({ event }: { event: AgentEvent }) {
       return (
         <View style={styles.line}>
           <Text style={[styles.lineKind, styles.errorKind]}>error</Text>
-          <Text style={styles.lineText}>{event.code}: {event.message}</Text>
+          <Text style={styles.lineText}>
+            {event.code}: {event.message}
+          </Text>
         </View>
       );
     case "permission_request":
