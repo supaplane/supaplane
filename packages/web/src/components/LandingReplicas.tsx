@@ -108,7 +108,9 @@ export function OpenCodeReplica({ headline, subcopy }: ReplicaProps) {
       <p className="text-fold-text-secondary">{subcopy}</p>
       <div className={`${PANEL} font-mono text-sm`}>
         <p className="text-fold-muted">$ bunx supaplane</p>
-        <p className="text-xs text-fold-subtle">Bring your own Claude / Codex / OpenCode. MIT. Local-first.</p>
+        <p className="text-xs text-fold-subtle">
+          Bring your own Claude / Codex / OpenCode. MIT. Local-first.
+        </p>
       </div>
       <ul className="grid grid-cols-3 gap-3 text-xs">
         <li className={PANEL}>Any harness</li>
