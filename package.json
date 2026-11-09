@@ -27,7 +27,7 @@
     "typecheck:cast": "tsgo -p packages/cast/tsconfig.typecheck.json --noEmit",
     "typecheck:protocol": "tsgo -p packages/protocol/tsconfig.typecheck.json --noEmit",
     "typecheck:client": "bun run typecheck:protocol && tsgo -p packages/client/tsconfig.typecheck.json --noEmit",
-    "typecheck:server": "bun run typecheck:client && bunx tsc -p packages/server/tsconfig.json --noEmit",
+    "typecheck:server": "bun run typecheck:client && tsgo -p packages/server/tsconfig.typecheck.json --noEmit",
     "typecheck:cli": "bun run typecheck:server && tsgo -p packages/cli/tsconfig.typecheck.json --noEmit",
     "typecheck:web": "tsgo -p packages/web/tsconfig.typecheck.json --noEmit",
     "lint": "oxlint packages scripts",
