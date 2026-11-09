@@ -13,7 +13,6 @@
     "lint": "oxlint src --config ../../oxlint.jsonc"
   },
   "dependencies": {
-    "@echohello/protocol": "workspace:*",
     "@echohello/server": "workspace:*",
     "electron-log": "^5.4.3"
   },

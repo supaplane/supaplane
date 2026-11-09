@@ -17,8 +17,7 @@
     "lint": "oxlint src --config ../../oxlint.jsonc"
   },
   "dependencies": {
-    "@echohello/protocol": "workspace:*",
-    "zod": "^3.23.8"
+    "@echohello/protocol": "workspace:*"
   },
   "devDependencies": {
     "vitest": "^2.1.0"
