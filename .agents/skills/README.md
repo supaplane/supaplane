@@ -19,7 +19,7 @@ agent skills into this directory. Keeping every skill — curated or auto-instal
 | Source                                                                  | Convention                               |
 | ----------------------------------------------------------------------- | ---------------------------------------- |
 | Tool auto-installed (e.g. `impeccable`, `github-clone`, vendor plugins) | `<tool-name>/` or just `<skill-name>/`   |
-| Supaplane-authored, machine-only                                          | `<skill-name>/` (same as root `skills/`) |
+| Supaplane-authored, machine-only                                        | `<skill-name>/` (same as root `skills/`) |
 
 ## What does NOT go here
 

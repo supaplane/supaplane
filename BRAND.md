@@ -6,7 +6,7 @@ The **in-app** visual system (the Fold design language, surface tokens, motion t
 
 ![Cover overview](cover/cover-overview.png)
 
-*Cover lockup, brand field, and the four brand palettes (Paper 100, Signal, Crash, Fly).*
+_Cover lockup, brand field, and the four brand palettes (Paper 100, Signal, Crash, Fly)._
 
 ## Contents
 
@@ -28,10 +28,10 @@ The mark is a stylised paper plane / supine arrowhead — drawn from the apex of
 
 ### Variants
 
-| File | When to use | Fill |
-| --- | --- | --- |
+| File                                                                 | When to use                                                       | Fill      |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------- | --------- |
 | [`brand/mark/brand-mark-on-light.svg`](mark/brand-mark-on-light.svg) | Paper / light surfaces (Paper 100, white cards, light app chrome) | `#2C2C2C` |
-| [`brand/mark/brand-mark-on-dark.svg`](mark/brand-mark-on-dark.svg) | Dark surfaces (Signal palette, dark app chrome, dark docs) | `#EDE3C4` |
+| [`brand/mark/brand-mark-on-dark.svg`](mark/brand-mark-on-dark.svg)   | Dark surfaces (Signal palette, dark app chrome, dark docs)        | `#EDE3C4` |
 
 **Do not** recolour the mark outside of these two variants without raising an issue first. The silhouette is the brand; the colour is contextual.
 
@@ -75,12 +75,12 @@ Reserve **two mark-widths** of vertical space between the mark and the wordmark,
 
 The brand ships four named palettes, each pairing a base surface with a complementary accent. They are designed for public-facing surfaces and do not overlap with the in-app semantic tokens.
 
-| Palette | Surface | Accent | Use |
-| --- | --- | --- | --- |
-| **Paper 100** | Near-white (#F5F5F0 family) | Supaplane bg | Default brand surface — GitHub banner, docs cover, README hero |
-| **Signal** | Supaplane bg | Cream wordmark | Dark brand surface — website hero, social cards, conference slides |
-| **Crash** | Emerald 950 | Amber 400 accent | Status / launch announcements — limited use |
-| **Fly** | Sky 400 | Cream accent | Promotional / feature reveals — limited use |
+| Palette       | Surface                     | Accent           | Use                                                                |
+| ------------- | --------------------------- | ---------------- | ------------------------------------------------------------------ |
+| **Paper 100** | Near-white (#F5F5F0 family) | Supaplane bg     | Default brand surface — GitHub banner, docs cover, README hero     |
+| **Signal**    | Supaplane bg                | Cream wordmark   | Dark brand surface — website hero, social cards, conference slides |
+| **Crash**     | Emerald 950                 | Amber 400 accent | Status / launch announcements — limited use                        |
+| **Fly**       | Sky 400                     | Cream accent     | Promotional / feature reveals — limited use                        |
 
 The semantic palette underneath is shared with the in-app design system. See [`docs/design.md`](../docs/design.md) for the canonical token names once it lands.
 
@@ -90,26 +90,26 @@ This section mirrors the tokens used inside the renderers so brand and product s
 
 ### Primitives
 
-| Group | Tokens |
-| --- | --- |
-| `supaplane` | `bg`, `surface` |
-| `neutral` | `200`, `300`, `400`, `500`, `600`, `700`, `800`, `800-40`, `900`, `950` |
-| `white` | `1000` |
-| `purple` | `500`, `700` |
-| `red` | `200`, `950` |
-| `emerald` | `200`, `400`, `950` |
-| `amber` | `400` |
-| `sky` | `400` |
+| Group       | Tokens                                                                  |
+| ----------- | ----------------------------------------------------------------------- |
+| `supaplane` | `bg`, `surface`                                                         |
+| `neutral`   | `200`, `300`, `400`, `500`, `600`, `700`, `800`, `800-40`, `900`, `950` |
+| `white`     | `1000`                                                                  |
+| `purple`    | `500`, `700`                                                            |
+| `red`       | `200`, `950`                                                            |
+| `emerald`   | `200`, `400`, `950`                                                     |
+| `amber`     | `400`                                                                   |
+| `sky`       | `400`                                                                   |
 
 ### Semantic
 
-| Group | Tokens |
-| --- | --- |
-| `color/bg` | `app`, `surface`, `input`, `subtle`, `accent`, `accent-hover`, `error`, `success`, `workspace-hover` |
-| `color/text` | `primary`, `secondary`, `tertiary`, `muted`, `on-accent`, `error`, `success` |
-| `color/border` | `default`, `strong`, `subtle` |
-| `color/icon` | `default` |
-| `color/status` | `active`, `blocked`, `done` |
+| Group          | Tokens                                                                                               |
+| -------------- | ---------------------------------------------------------------------------------------------------- |
+| `color/bg`     | `app`, `surface`, `input`, `subtle`, `accent`, `accent-hover`, `error`, `success`, `workspace-hover` |
+| `color/text`   | `primary`, `secondary`, `tertiary`, `muted`, `on-accent`, `error`, `success`                         |
+| `color/border` | `default`, `strong`, `subtle`                                                                        |
+| `color/icon`   | `default`                                                                                            |
+| `color/status` | `active`, `blocked`, `done`                                                                          |
 
 ## Voice
 

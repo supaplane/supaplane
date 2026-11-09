@@ -34,7 +34,8 @@ export function WorkspaceSidebar({ client, onDemoDiff }: Props) {
         {workspaces.length === 0 && (
           <li className="px-4 py-3 text-sm text-neutral-500">
             No workspaces yet. Run{" "}
-            <code className="rounded bg-neutral-800 px-1">supaplane agent start</code> to create one.
+            <code className="rounded bg-neutral-800 px-1">supaplane agent start</code> to create
+            one.
           </li>
         )}
         {workspaces.map((ws) => (

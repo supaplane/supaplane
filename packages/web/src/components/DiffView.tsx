@@ -66,7 +66,13 @@ export function DiffView({ name, before, after, prevName, layout = "split", clas
   );
 }
 
-function RenderFileDiff({ fileDiff, layout }: { fileDiff: FileDiffMetadata; layout: "split" | "unified" }) {
+function RenderFileDiff({
+  fileDiff,
+  layout,
+}: {
+  fileDiff: FileDiffMetadata;
+  layout: "split" | "unified";
+}) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Fd = FileDiff as unknown as React.ComponentType<{
     fileDiff: FileDiffMetadata;

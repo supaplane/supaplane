@@ -23,25 +23,25 @@ Formerly Spanner (née Pidex, née OpenPi). Personal project, hosted at [supapla
 
 ## How it sits in the sky
 
-| | Local / self-hosted | Multi-vendor | Multi-surface | Open source |
-|---|---|---|---|---|
-| **T3 Code** | yes | yes | web / desktop | MIT |
-| **Paseo** | yes | yes | desk + phone | AGPL |
-| **Conductor** | yes (Mac) | yes | desktop | closed |
-| **Superconductor** | cloud-first | yes | desk + mobile + Slack | closed |
-| **OpenChamber** | yes | OpenCode-first | desk + web + phone | MIT |
-| **Supaplane** | yes (daemon you control) | yes | desk + web + phone | MIT |
+|                    | Local / self-hosted      | Multi-vendor   | Multi-surface         | Open source |
+| ------------------ | ------------------------ | -------------- | --------------------- | ----------- |
+| **T3 Code**        | yes                      | yes            | web / desktop         | MIT         |
+| **Paseo**          | yes                      | yes            | desk + phone          | AGPL        |
+| **Conductor**      | yes (Mac)                | yes            | desktop               | closed      |
+| **Superconductor** | cloud-first              | yes            | desk + mobile + Slack | closed      |
+| **OpenChamber**    | yes                      | OpenCode-first | desk + web + phone    | MIT         |
+| **Supaplane**      | yes (daemon you control) | yes            | desk + web + phone    | MIT         |
 
 The open lane is local control, any harness, every surface. That is the runway we are on.
 
 ## Surfaces (MVP)
 
-| Surface | Package | Role |
-|---|---|---|
-| Desktop | `@echohello/desktop` | Electron shell that spawns and supervises the daemon |
-| PWA / web | `@echohello/web` | Vite + React renderer; works on the relay too |
-| Mobile | `@echohello/app` | Expo / React Native companion |
-| CLI | `@echohello/cli` | `supaplane` commands for daemon, agent, provider, worktree |
+| Surface   | Package              | Role                                                       |
+| --------- | -------------------- | ---------------------------------------------------------- |
+| Desktop   | `@echohello/desktop` | Electron shell that spawns and supervises the daemon       |
+| PWA / web | `@echohello/web`     | Vite + React renderer; works on the relay too              |
+| Mobile    | `@echohello/app`     | Expo / React Native companion                              |
+| CLI       | `@echohello/cli`     | `supaplane` commands for daemon, agent, provider, worktree |
 
 ## Quick start
 
