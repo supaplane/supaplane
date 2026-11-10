@@ -20,6 +20,7 @@ function initRepo(path: string): void {
   execFileSync("git", ["init", "-b", "main", path]);
   execFileSync("git", ["-C", path, "config", "user.email", "test@example.com"]);
   execFileSync("git", ["-C", path, "config", "user.name", "Test"]);
+  execFileSync("git", ["-C", path, "config", "commit.gpgsign", "false"]);
   execFileSync("git", ["-C", path, "commit", "--allow-empty", "-m", "init"]);
   execFileSync("git", ["-C", path, "branch", "feature-x"]);
 }
