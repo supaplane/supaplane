@@ -7,7 +7,7 @@ Supaplane is a local-first, multi-surface coding-agent workbench. A single super
 The architectural decisions are documented in `docs/` — read them before making non-trivial changes:
 
 - `docs/architecture.md` — overall architecture, package boundaries, build order
-- `docs/design.md` — Fold visual system; tokens in `docs/fold-tokens.css`
+- `BRAND.md` - landed brand guidance. The Fold spec (`docs/design.md`) and tokens (`docs/fold-tokens.css`) are pending in [PR #19](https://github.com/supaplane/supaplane/pull/19), not yet on main.
 - `docs/onboarding-relay.md` — pairing, relay, settings sync model
 - `docs/providers.md` — agent runtime integrations (OpenCode, Claude Code, Cursor, MCP)
 
@@ -25,18 +25,21 @@ If you need to know _why_ a decision was made, the build-research notes in the o
 ```bash
 mise install          # node 22.23 + bun 1.3.14
 bun install           # install all workspaces
-bun run build         # full build (protocol → client → server-deps → server → web → desktop)
-bun run typecheck     # tsgo over all workspaces
+bun run build         # emit cast, protocol, client, server and CLI
+bun run typecheck     # check cast, protocol, client, server, CLI and web
 bun run lint          # oxlint
 bun run format        # oxfmt
-bun test              # vitest tests across all packages
+bun run test          # Vitest suite used by CI, including workflow tests
 
 # Dev loops
-mise run dev:daemon   # daemon only
-mise run dev:web      # Vite renderer
-mise run dev:desktop  # Electron shell (requires daemon running)
-mise run dev:all      # all three concurrently
+mise run dev          # daemon with watch
+mise run dev-daemon   # daemon only, without watch
+mise run dev-web      # Vite renderer
+mise run dev-desktop  # Electron shell (requires daemon running)
+mise run dev-all      # all three concurrently
 ```
+
+See `docs/development.md` for renderer build commands, type-check coverage and formatting checks. `package.json`, `mise.toml` and `.github/workflows/ci.yml` define the commands.
 
 ## Package layout & dependency direction
 

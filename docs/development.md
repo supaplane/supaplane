@@ -14,8 +14,20 @@ Both are pinned in `mise.toml`. Use `mise run <task>` for the convenience wrappe
 ## Build
 
 ```bash
-# Full build (protocol → client → server-deps → server → web → desktop)
+# Emit cast, protocol, client, server and CLI
 bun run build
+
+# Build protocol + client, then type-check and bundle web
+bun run build:web
+
+# Build server + web, then type-check the Electron shell
+bun run build:desktop
+
+# Emit and type-check the Electron shell after its dependencies are built
+bun run --cwd packages/desktop build
+
+# Build protocol + client, then type-check the mobile app (no native bundle)
+bun run build:app
 
 # Just protocol + client (fast iteration on the wire types)
 bun run build:client
@@ -30,41 +42,51 @@ bun run watch:server
 bun run typecheck
 ```
 
-Uses `@typescript/native-preview` (tsgo) for fast native type-checking.
+Checks Cast, protocol, client, server, CLI and web. It uses `@typescript/native-preview` (tsgo) except for the server, which uses `tsc`. CI runs `bun run build` first so workspace imports resolve to emitted packages.
+
+Desktop and app are checked separately by `bun run build:desktop` and `bun run build:app`. The root build and type-check commands do not cover those renderers.
 
 ## Lint + format
 
 ```bash
 bun run lint         # oxlint
-bun run lint:fix     # auto-fix
+bun run lint-fix     # auto-fix
 bun run format       # oxfmt write
-bun run format:check # CI check (no write)
+bun run format-check # CI check (no write)
+mise run fmt-check   # wrapper for bun run format-check
 ```
 
-Both are enforced on commit via lefthook (`.lefthook.yml`).
+Lefthook (`lefthook.yml`) runs formatting, lint and type-check hooks for matching staged files. CI also checks lint and formatting.
 
 ## Test
 
 ```bash
-bun test             # vitest across all workspaces
+bun run test         # Vitest suite used by CI, including workflow tests
 bun run knip         # dead-code detection
 ```
+
+`bun test` invokes Bun's own test runner. It currently skips the workflow tests under `.github/`, so use `bun run test` for the full configured suite. Lefthook runs Vitest and Knip before pushes.
 
 ## Dev loops
 
 ```bash
 # Run the daemon in dev mode (auto-reload on src/ changes)
-mise run dev:daemon
+mise run dev
+
+# Run the daemon without watch
+mise run dev-daemon
 
 # Run the web renderer (Vite HMR on http://127.0.0.1:5179)
-mise run dev:web
+mise run dev-web
 
 # Run the desktop shell (Electron + the running daemon)
-mise run dev:desktop
+mise run dev-desktop
 
 # All three concurrently
-mise run dev:all
+mise run dev-all
 ```
+
+Run `bun run build` once before starting a dev loop so the workspace dependencies are emitted. The dev commands then run each surface from its own workspace.
 
 The Vite dev server proxies `/api` and `/ws` to `http://127.0.0.1:17687` (the daemon). The desktop shell expects the daemon to be running separately. Default ports avoid conflicts with Paseo (6767), Vite default (5173), Metro/Expo (8081, 19000), and other well-known dev tools.
 
@@ -72,8 +94,8 @@ The Vite dev server proxies `/api` and `/ws` to `http://127.0.0.1:17687` (the da
 
 1. Make a change in a package (e.g. `packages/server/src/handshake.ts`).
 2. `bun run watch:server` for type-check feedback.
-3. Restart the daemon (`mise run dev:daemon`) — `--watch` reloads on save.
-4. Run tests in that package: `bun test --cwd packages/server`.
+3. Run the daemon with `mise run dev`; `--watch` reloads on save.
+4. Run tests in that package from the root with `bun run test packages/server`.
 5. Commit. Lefthook runs format + lint + typecheck on staged files.
 
 ## Adding a new package

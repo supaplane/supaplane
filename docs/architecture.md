@@ -29,6 +29,8 @@ Supaplane is a local-first, multi-surface coding-agent workbench. This document 
                     Depends on @echohello/protocol + @echohello/client.
 @echohello/relay      (post-MVP) tweetnacl-box E2E relay.
                     Depends on @echohello/protocol.
+@echohello/cast       Rigged passenger SVGs and demo playground.
+                    No deps on other packages.
 ```
 
 The dependency direction is strictly downward. Never import backwards — if you find yourself needing to import `@echohello/web` from `@echohello/server`, you have a design problem.
@@ -78,13 +80,18 @@ The dependency direction is strictly downward. Never import backwards — if you
 
 ## Build order
 
-```
-protocol  →  client  →  server-deps  →  server  →  web  →  desktop
-                                                       │
-                                                       →  app (via client)
-```
+`bun run build` emits Cast, protocol, client, server and CLI in that order. Cast is independent. The other packages follow `protocol -> client -> server -> CLI`; `build:server-deps` is a helper that builds the client and protocol, not a separate package.
 
-`@echohello/protocol` builds first (no deps). `@echohello/client` depends on `@echohello/protocol`. `@echohello/server` depends on both. `@echohello/web` and `@echohello/app` depend on the client + protocol. `@echohello/desktop` depends on the server (to spawn it) and `@echohello/web` (to load it inside Electron).
+The renderers have separate commands. The root build does not bundle web or emit the desktop shell.
+
+| Command                                | Result                                                                                            |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `bun run build:web`                    | Builds protocol and client, then type-checks and bundles web with Vite.                           |
+| `bun run build:desktop`                | Builds server and web, then type-checks the Electron shell.                                       |
+| `bun run --cwd packages/desktop build` | Emits the Electron shell and type-checks it. Run after `build:desktop` to prepare server and web. |
+| `bun run build:app`                    | Builds protocol and client, then type-checks the mobile app. It does not produce a native bundle. |
+
+The intended dependency direction is unchanged. Web and app consume client and protocol. Desktop supervises server and hosts web. Cast can build independently of every daemon and renderer package.
 
 ## Reference
 
