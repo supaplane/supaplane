@@ -5,6 +5,8 @@ import {
   type Envelope,
   type HelloAckMessage,
   HelloMessageSchema,
+  ServerEnvelopeSchema,
+  SupaplaneError,
   type ServerEvent,
 } from "@echohello/protocol";
 
@@ -78,13 +80,18 @@ export class WsDriver {
       ws.send(JSON.stringify(hello));
     });
     ws.addEventListener("message", (evt) => {
-      const data =
-        typeof evt.data === "string" ? evt.data : new TextDecoder().decode(evt.data as ArrayBuffer);
       let envelope: Envelope;
       try {
-        envelope = JSON.parse(data) as Envelope;
-      } catch {
-        this.#emit("error", new Error(`Failed to parse envelope: ${data.slice(0, 256)}`));
+        const data =
+          typeof evt.data === "string"
+            ? evt.data
+            : new TextDecoder().decode(evt.data as ArrayBuffer);
+        envelope = ServerEnvelopeSchema.parse(JSON.parse(data) as unknown);
+      } catch (cause) {
+        this.#emit(
+          "error",
+          new SupaplaneError({ code: "bad_request", message: "Invalid server envelope", cause }),
+        );
         return;
       }
       this.#onEnvelope?.(envelope);

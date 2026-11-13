@@ -55,4 +55,18 @@ describe("daemon e2e: rpc", () => {
       "Unknown provider",
     );
   });
+
+  it("ping commands round-trip as validated server events", async () => {
+    const pong = new Promise<number>((resolve) => {
+      const unsubscribe = client.onServerEvent((event) => {
+        if (event.kind !== "pong") return;
+        unsubscribe();
+        resolve(event.ts);
+      });
+    });
+
+    client.sendCommand({ type: "ping", ts: Date.now() });
+
+    expect(await pong).toEqual(expect.any(Number));
+  });
 });

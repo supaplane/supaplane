@@ -318,6 +318,13 @@ export const RpcResponseSchema = z.object({
 });
 export type RpcResponse = z.infer<typeof RpcResponseSchema>;
 
+/** Only the envelope variants sent by the daemon to clients. */
+export const ServerEnvelopeSchema = z.union([
+  HelloAckMessageSchema,
+  RpcResponseSchema,
+  z.object({ event: ServerEventSchema }),
+]);
+
 /** Wire envelope that wraps either an RPC or a one-way command. */
 export const EnvelopeSchema = z.union([
   RpcRequestSchema,
