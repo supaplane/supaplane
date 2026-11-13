@@ -2,27 +2,34 @@
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "workspaces": {
     "packages/cast": {
-      "ignore": ["src/**/*.test.ts", "demo/**/*"],
+      "ignore": ["demo/**/*"],
     },
-    "packages/protocol": {
-      "ignore": ["src/**/*.test.ts"],
-    },
-    "packages/client": {
-      "ignore": ["src/**/*.test.ts"],
-    },
+    "packages/protocol": {},
+    "packages/client": {},
     "packages/server": {
-      "ignore": ["src/**/*.test.ts"],
+      // Loaded by Pino's worker from the transport target in src/logger.ts.
+      "ignoreDependencies": ["pino-pretty"],
     },
     "packages/cli": {},
     "packages/web": {
-      "entry": ["src/main.tsx"],
-      "ignore": ["src/**/*"],
+      // Planned renderer dependencies retained by the scaffold triage in #21.
+      "ignoreDependencies": [
+        "@chenglou/pretext",
+        "@tanstack/react-query",
+        "@tanstack/react-virtual",
+        "zod",
+        "zustand",
+      ],
     },
     "packages/desktop": {
       "entry": ["src/main.ts", "src/preload.ts"],
     },
     "packages/app": {
-      "entry": ["index.ts", "app/_layout.tsx", "app/index.tsx"],
+      // Metro discovers this config without a source import.
+      "entry": ["metro.config.cjs"],
+      // Knip's Expo plugin infers this unless updates.enabled is false.
+      // This scaffold has no update client, updates URL or runtimeVersion (#21).
+      "ignoreDependencies": ["expo-updates"],
     },
     ".": {},
   },

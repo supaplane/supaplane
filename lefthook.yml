@@ -16,7 +16,5 @@ pre-push:
   commands:
     test:
       run: mise exec -- bun run test
-    # knip: temporarily disabled during scaffold — many false-positives in
-    # Expo/React-Vite packages. Re-enable once knip config is tuned.
-    # knip:
-    #   run: mise exec -- bun run knip
+    knip:
+      run: mise exec -- bun run knip
