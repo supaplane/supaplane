@@ -76,4 +76,12 @@ jobs:
     needs: [lint, format, typecheck, test, build]
     if: ${{ always() }}
     steps:
-      - run: echo "${{ needs.lint.result }} ${{ needs.format.result }} ${{ needs.typecheck.result }} ${{ needs.test.result }} ${{ needs.build.result }}"
+      - name: Require every dependency to succeed
+        env:
+          JOB_RESULTS: ${{ toJSON(needs) }}
+        run: |
+          echo "$JOB_RESULTS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+          if ! echo "$JOB_RESULTS" | jq -e 'length > 0 and all(.[]; .result == "success")' > /dev/null; then
+            echo "::error::One or more required jobs did not succeed."
+            exit 1
+          fi
