@@ -68,7 +68,6 @@ export class WsDriver {
     const ws = new WebSocket(this.#endpoint);
     this.#ws = ws;
     ws.addEventListener("open", () => {
-      this.#attempt = 0;
       const hello = HelloMessageSchema.parse({
         type: "hello",
         clientId: this.#clientId,
@@ -96,6 +95,7 @@ export class WsDriver {
       }
       this.#onEnvelope?.(envelope);
       if ("type" in envelope && envelope.type === "hello_ack") {
+        this.#attempt = 0;
         this.#helloAck = envelope;
         this.#emit("open", envelope);
         return;

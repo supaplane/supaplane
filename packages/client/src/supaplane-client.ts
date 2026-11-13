@@ -8,6 +8,7 @@ import {
   type ServerEvent,
   type WorkspaceState,
   type SessionState,
+  SupaplaneError,
 } from "@echohello/protocol";
 
 import { WsDriver } from "./ws-driver.js";
@@ -75,6 +76,11 @@ export class SupaplaneClient {
         ? { reconnectBackoffMs: options.reconnectBackoffMs }
         : {}),
       onEnvelope: (envelope) => this.#onEnvelope(envelope),
+    });
+    this.#driver.on("exhausted", () => {
+      this.#rejectConnected(
+        new SupaplaneError({ code: "unknown", message: "WebSocket reconnect attempts exhausted" }),
+      );
     });
   }
 
