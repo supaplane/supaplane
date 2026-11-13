@@ -77,6 +77,13 @@ export class SupaplaneClient {
         : {}),
       onEnvelope: (envelope) => this.#onEnvelope(envelope),
     });
+    if (options.reconnect === false) {
+      this.#driver.on("close", () => {
+        this.#rejectConnected(
+          new SupaplaneError({ code: "unknown", message: "WebSocket closed before hello_ack" }),
+        );
+      });
+    }
     this.#driver.on("exhausted", () => {
       this.#rejectConnected(
         new SupaplaneError({ code: "unknown", message: "WebSocket reconnect attempts exhausted" }),
