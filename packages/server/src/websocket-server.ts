@@ -180,7 +180,7 @@ export class SupaplaneWebsocketServer {
           } else if (cmd.type === "unsubscribe") {
             for (const topic of cmd.topics) session.subscribedTopics.delete(topic);
           } else if (cmd.type === "ping") {
-            socket.send(JSON.stringify({ kind: "pong", ts: Date.now() }));
+            socket.send(JSON.stringify({ event: { kind: "pong", ts: Date.now() } }));
             return;
           }
           this.#onCommand?.(cmd, session);
