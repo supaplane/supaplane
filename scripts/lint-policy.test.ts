@@ -30,6 +30,21 @@ function lintFixture(filename: string, source: string) {
 }
 
 describe("lint policy", () => {
+  it.each([
+    ["value declarations", "entry.ts", 'export const sessionId = "session";\n'],
+    ["function declarations", "entry.ts", "export function connect() {}\n"],
+    ["class declarations", "entry.ts", "export class Client { connect() { return this; } }\n"],
+    ["type declarations", "entry.ts", "export type SessionId = string;\n"],
+    ["re-exports", "entry.ts", 'export { Client } from "./client.js";\n'],
+    ["test helpers", "helper.test.ts", "export function createClient() {}\n"],
+  ])("allows named exports for %s", (_kind, filename, source) => {
+    const result = lintFixture(filename, source);
+    expect(result.status).toBe(0);
+    expect(result.diagnostics.map(({ code }) => code)).not.toContain(
+      "eslint-plugin-import(no-named-export)",
+    );
+  });
+
   it("allows production module initialisation without test setup warnings", () => {
     const result = lintFixture("entry.ts", "initialise();\n");
     expect(result.status).toBe(0);
