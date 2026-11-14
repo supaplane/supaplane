@@ -30,6 +30,39 @@ function lintFixture(filename: string, source: string) {
 }
 
 describe("lint policy", () => {
+  it.each(
+    (
+      [
+        [
+          "discriminator-first messages",
+          'export const message = { type: "tool.start", input: {} };\n',
+        ],
+        ["time ranges", "export const range = { start: 1000, end: 1500 };\n"],
+        [
+          "nested objects",
+          'export const event = { time: { start: 1000, end: 1500 }, status: "done" };\n',
+        ],
+      ] as const
+    ).flatMap(([kind, source]) =>
+      ["entry.ts", "entry.test.ts"].map((filename) => [kind, filename, source] as const),
+    ),
+  )("allows intentional key ordering for %s in %s", (_kind, filename, source) => {
+    const result = lintFixture(filename, source);
+    expect(result.status).toBe(0);
+    expect(result.diagnostics.map(({ code }) => code)).not.toContain("eslint(sort-keys)");
+  });
+
+  it.each(["entry.ts", "entry.test.ts"])("rejects duplicate object keys in %s", (filename) => {
+    const result = lintFixture(
+      filename,
+      'export const message = { type: "start", type: "end" };\n',
+    );
+    expect(result.status).toBe(1);
+    expect(result.diagnostics).toContainEqual(
+      expect.objectContaining({ code: "eslint(no-dupe-keys)", severity: "error" }),
+    );
+  });
+
   it.each([
     ["value declarations", "entry.ts", 'export const sessionId = "session";\n'],
     ["function declarations", "entry.ts", "export function connect() {}\n"],
