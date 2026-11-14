@@ -4,6 +4,7 @@ import {
   type Envelope,
   type HelloAckMessage,
   type ServerEvent,
+  SupaplaneError,
 } from "@echohello/protocol";
 
 import { WsDriver } from "./ws-driver.js";
@@ -152,6 +153,80 @@ describe("WsDriver incoming envelopes", () => {
 
     expect(onEnvelope.mock.calls).toEqual([[response]]);
     expect(onError).not.toHaveBeenCalled();
+  });
+});
+
+describe("Client connections with reconnect disabled", () => {
+  const originalWebSocket = globalThis.WebSocket;
+  let client: SupaplaneClient;
+  let socket: TestWebSocket;
+  let connection: Promise<HelloAckMessage>;
+
+  beforeEach(() => {
+    globalThis.WebSocket = TestWebSocket as unknown as typeof WebSocket;
+    TestWebSocket.instances = [];
+    client = new SupaplaneClient({
+      endpoint: "ws://127.0.0.1:17687/ws",
+      clientId: "test-client",
+      clientType: "cli",
+      reconnect: false,
+    });
+    connection = client.connect();
+    socket = TestWebSocket.instances[0]!;
+  });
+
+  afterEach(() => {
+    client.close();
+    globalThis.WebSocket = originalWebSocket;
+  });
+
+  it.each([
+    { stage: "before opening", open: false, error: false },
+    { stage: "during the handshake", open: true, error: false },
+    { stage: "after a transport error", open: true, error: true },
+  ])("rejects connect() when the socket closes $stage", async ({ open, error }) => {
+    const onClose = vi.fn<SupaplaneClientListener<"close">>();
+    const onReconnect = vi.fn<SupaplaneClientListener<"reconnecting">>();
+    client.on("close", onClose);
+    client.on("reconnecting", onReconnect);
+    if (open) socket.open();
+    if (error) socket.dispatchEvent(new Event("error"));
+
+    socket.close(1008, "Handshake rejected");
+
+    const settled = Promise.race([connection, Promise.resolve("pending")]);
+    await expect(settled).rejects.toBeInstanceOf(SupaplaneError);
+    await expect(settled).rejects.toMatchObject({
+      code: "unknown",
+      message: "WebSocket closed before hello_ack",
+    });
+    expect(onClose.mock.calls).toEqual([[{ code: 1008, reason: "Handshake rejected" }]]);
+    expect(onReconnect).not.toHaveBeenCalled();
+    expect(client.isConnected).toBe(false);
+    expect(client.helloAck).toBeNull();
+    expect(TestWebSocket.instances).toHaveLength(1);
+  });
+
+  it("keeps a successful connection resolved after the socket closes", async () => {
+    socket.open();
+    socket.receive(JSON.stringify(helloAck));
+    await expect(connection).resolves.toEqual(helloAck);
+
+    socket.close();
+
+    await expect(connection).resolves.toEqual(helloAck);
+    expect(client.isConnected).toBe(false);
+    expect(TestWebSocket.instances).toHaveLength(1);
+  });
+
+  it("preserves explicit cancellation before hello_ack", async () => {
+    client.close();
+
+    await expect(connection).rejects.toMatchObject({
+      message: "Client closed before hello_ack",
+    });
+    expect(socket.readyState).toBe(TestWebSocket.CLOSED);
+    expect(TestWebSocket.instances).toHaveLength(1);
   });
 });
 
