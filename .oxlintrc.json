@@ -14,8 +14,17 @@
     "react/react-in-jsx-scope": "off",
     "react/style-prop-object": "off",
     "import/no-unassigned-import": "off",
-    "vitest/require-to-throw-message": "off"
+    "vitest/require-to-throw-message": "off",
+    "vitest/require-hook": "off"
   },
+  "overrides": [
+    {
+      "files": ["**/*.{test,spec}.{ts,tsx,js,jsx}"],
+      "rules": {
+        "vitest/require-hook": "warn"
+      }
+    }
+  ],
   "ignorePatterns": [
     "**/dist/**",
     "**/node_modules/**",

@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     include: [
       ".github/workflows/**/*.test.ts",
+      "scripts/**/*.test.ts",
       "packages/cast/src/**/*.{test,spec}.{ts,tsx,js,jsx}",
       "packages/protocol/src/**/*.{test,spec}.{ts,tsx,js,jsx}",
       "packages/client/src/**/*.{test,spec}.{ts,tsx,js,jsx}",
