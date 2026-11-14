@@ -77,7 +77,7 @@ export class WorktreeService {
     if (workspace === undefined) {
       throw new DaemonError({ code: "not_found", message: `Unknown workspace: ${workspaceId}` });
     }
-    const { stdout } = await git(workspace.cwd, ["worktree", "list", "--porcelain"]);
+    const { stdout } = await git(workspace.cwd, ["worktree", "list", "--porcelain", "-z"]);
     return parseWorktreeList(stdout);
   }
 
@@ -116,6 +116,7 @@ function defaultWorktreePath(cwd: string, name: string): string {
   return resolve(dirname(repo), `${repo.split("/").pop() ?? "repo"}-${safe}`);
 }
 
+/** Parse the NUL-delimited output of `git worktree list --porcelain -z`. */
 export function parseWorktreeList(porcelain: string): WorktreeInfo[] {
   const worktrees: WorktreeInfo[] = [];
   let current: { path?: string; branch?: string | null; bare?: boolean } = {};
@@ -128,7 +129,7 @@ export function parseWorktreeList(porcelain: string): WorktreeInfo[] {
     });
     current = {};
   };
-  for (const line of porcelain.split("\n")) {
+  for (const line of porcelain.split("\0")) {
     if (line.startsWith("worktree ")) {
       flush();
       current = { path: line.slice("worktree ".length) };

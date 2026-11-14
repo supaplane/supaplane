@@ -1,6 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { realpathSync } from "node:fs";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, rename, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -26,7 +26,7 @@ function initRepo(path: string): void {
 }
 
 describe("parseWorktreeList", () => {
-  it("parses porcelain output", () => {
+  it("parses NUL-delimited porcelain output", () => {
     const parsed = parseWorktreeList(
       [
         "worktree /repo",
@@ -37,23 +37,50 @@ describe("parseWorktreeList", () => {
         "HEAD def456",
         "branch refs/heads/feature-x",
         "",
-      ].join("\n"),
+      ].join("\0"),
     );
     expect(parsed).toEqual([
       { path: "/repo", branch: "main", bare: false },
       { path: "/repo-feature", branch: "feature-x", bare: false },
     ]);
   });
+
+  it("preserves embedded newlines and parses bare and detached worktrees", () => {
+    const parsed = parseWorktreeList(
+      [
+        "worktree /repo.git",
+        "bare",
+        "",
+        "worktree /repo\nbranch refs/heads/not-a-branch",
+        "HEAD abc123",
+        "detached",
+        "locked reason\nworktree /not-a-worktree",
+        "",
+        "worktree /repo-feature",
+        "HEAD def456",
+        "branch refs/heads/feature/x",
+        "prunable gitdir file points to non-existent location",
+        "",
+      ].join("\0"),
+    );
+    expect(parsed).toEqual([
+      { path: "/repo.git", branch: null, bare: true },
+      { path: "/repo\nbranch refs/heads/not-a-branch", branch: null, bare: false },
+      { path: "/repo-feature", branch: "feature/x", bare: false },
+    ]);
+  });
 });
 
 describe("WorktreeService", () => {
+  let rootDir: string;
   let repoDir: string;
   let workspaces: WorkspaceRegistry;
   let service: WorktreeService;
   let workspaceId: string;
 
   beforeEach(async () => {
-    repoDir = await mkdtemp(join(tmpdir(), "supaplane-git-"));
+    rootDir = await mkdtemp(join(tmpdir(), "supaplane-git-"));
+    repoDir = join(rootDir, "repo");
     initRepo(repoDir);
     workspaces = new WorkspaceRegistry();
     service = new WorktreeService({ workspaces, logger: silentLogger });
@@ -61,9 +88,7 @@ describe("WorktreeService", () => {
   });
 
   afterEach(async () => {
-    await rm(repoDir, { recursive: true, force: true });
-    const sibling = `${repoDir}-feature-x`;
-    await rm(sibling, { recursive: true, force: true });
+    await rm(rootDir, { recursive: true, force: true });
   });
 
   it("checks out a branch and reports it in workspace state", async () => {
@@ -81,6 +106,30 @@ describe("WorktreeService", () => {
     const worktrees = await service.listWorktrees(workspaceId);
     expect(worktrees.map((w) => w.path)).toContain(realWorktreePath);
     expect(worktrees.find((w) => w.path === realWorktreePath)?.branch).toBe("feature-x");
+  });
+
+  it.each([
+    ["spaces", "repo with spaces"],
+    ["quotes", 'repo"quoted'],
+    ["backslashes", "repo\\backslash"],
+    ["tabs", "repo\ttab"],
+    ["newlines", "repo\nnewline"],
+    ["non-ASCII characters", "repo-飛"],
+  ])("lists exact worktree paths containing %s", async (_description, directory) => {
+    const unusualRepoDir = join(rootDir, directory);
+    await rename(repoDir, unusualRepoDir);
+    execFileSync("git", ["-C", unusualRepoDir, "config", "core.quotePath", "true"]);
+    const unusualWorkspace = workspaces.open(unusualRepoDir);
+    await service.checkout(unusualWorkspace.workspaceId, { kind: "worktree", name: "feature-x" });
+
+    const canonicalRepoDir = join(realpathSync(rootDir), directory);
+    const expected = [
+      { path: canonicalRepoDir, branch: "main", bare: false },
+      { path: `${canonicalRepoDir}-feature-x`, branch: "feature-x", bare: false },
+    ];
+    expect(await service.listWorktrees(unusualWorkspace.workspaceId)).toEqual(expected);
+    const linkedWorkspace = workspaces.open(`${unusualRepoDir}-feature-x`);
+    expect(await service.listWorktrees(linkedWorkspace.workspaceId)).toEqual(expected);
   });
 
   it("rejects unknown workspaces", async () => {
