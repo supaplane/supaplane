@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { ClientCommandSchema } from "@echohello/protocol";
 
 describe("ClientCommandSchema", () => {
@@ -41,15 +41,5 @@ describe("WsDriver + SupaplaneClient shape (sanity)", () => {
     const mod = await import("../src/index.js");
     expect(typeof mod.SupaplaneClient).toBe("function");
     expect(typeof mod.WsDriver).toBe("function");
-  });
-
-  it("rpc() factory produces a unique requestId each call", () => {
-    const ids = new Set<string>();
-    for (let i = 0; i < 1000; i += 1) {
-      const id = `req_${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36)}`;
-      ids.add(id);
-    }
-    expect(ids.size).toBe(1000);
-    vi.useRealTimers();
   });
 });

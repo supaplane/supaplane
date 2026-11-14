@@ -3,6 +3,8 @@ import {
   ClientCapabilitiesSchema,
   type Envelope,
   type HelloAckMessage,
+  RpcRequestSchema,
+  type RpcRequest,
   type ServerEvent,
   SupaplaneError,
 } from "@echohello/protocol";
@@ -227,6 +229,125 @@ describe("Client connections with reconnect disabled", () => {
     });
     expect(socket.readyState).toBe(TestWebSocket.CLOSED);
     expect(TestWebSocket.instances).toHaveLength(1);
+  });
+});
+
+describe("Client RPC contract", () => {
+  const originalWebSocket = globalThis.WebSocket;
+  let client: SupaplaneClient;
+  let socket: TestWebSocket;
+
+  function request(index: number): RpcRequest {
+    return RpcRequestSchema.parse(JSON.parse(socket.sent[index]!));
+  }
+
+  function reply(rpcRequest: RpcRequest, result: unknown): void {
+    socket.receive(JSON.stringify({ ...rpcRequest, kind: "rpc_response", ok: true, result }));
+  }
+
+  beforeEach(async () => {
+    globalThis.WebSocket = TestWebSocket as unknown as typeof WebSocket;
+    TestWebSocket.instances = [];
+    client = new SupaplaneClient({
+      endpoint: "ws://127.0.0.1:17687/ws",
+      clientId: "test-client",
+      clientType: "cli",
+      reconnect: false,
+    });
+    const connection = client.connect();
+    socket = TestWebSocket.instances[0]!;
+    socket.open();
+    socket.receive(JSON.stringify(helloAck));
+    await connection;
+    socket.sent.length = 0;
+  });
+
+  afterEach(() => {
+    client.close();
+    globalThis.WebSocket = originalWebSocket;
+  });
+
+  it("correlates concurrent calls to the same RPC when replies arrive out of order", async () => {
+    const first = client.rpc("workspace.open", { cwd: "/first" });
+    const second = client.rpc("workspace.open", { cwd: "/second" });
+    const firstRequest = request(0);
+    const secondRequest = request(1);
+    expect(socket.sent).toHaveLength(2);
+    expect(firstRequest).toEqual({
+      rpc: "workspace.open",
+      requestId: expect.any(String),
+      args: { cwd: "/first" },
+    });
+    expect(secondRequest).toEqual({
+      rpc: "workspace.open",
+      requestId: expect.any(String),
+      args: { cwd: "/second" },
+    });
+    expect(firstRequest.requestId).not.toBe(secondRequest.requestId);
+
+    reply(secondRequest, { workspaceId: "ws_second" });
+    await expect(second).resolves.toEqual({ workspaceId: "ws_second" });
+    await expect(Promise.race([first, Promise.resolve("pending")])).resolves.toBe("pending");
+
+    reply(firstRequest, { workspaceId: "ws_first" });
+    await expect(first).resolves.toEqual({ workspaceId: "ws_first" });
+  });
+
+  it("omits absent arguments and accepts a successful reply without a result", async () => {
+    const pending = client.rpc("providers.list");
+    expect(request(0)).toEqual({ rpc: "providers.list", requestId: expect.any(String) });
+
+    reply(request(0), undefined);
+
+    await expect(pending).resolves.toBeUndefined();
+  });
+
+  it("rejects only the matching call when the daemon returns an RPC error", async () => {
+    const failed = client.rpc("workspace.open", { cwd: "/missing" });
+    const successful = client.rpc("providers.list");
+    socket.receive(
+      JSON.stringify({
+        ...request(0),
+        kind: "rpc_response",
+        ok: false,
+        error: { code: "not_found", message: "Workspace missing" },
+      }),
+    );
+
+    await expect(failed).rejects.toThrow("Workspace missing");
+    await expect(Promise.race([successful, Promise.resolve("pending")])).resolves.toBe("pending");
+
+    reply(request(1), []);
+    await expect(successful).resolves.toEqual([]);
+  });
+
+  it("ignores unknown and duplicate replies while another call is pending", async () => {
+    const completed = client.rpc("providers.list");
+    const pending = client.rpc("workspaces.list");
+    reply(request(0), ["claude"]);
+    await expect(completed).resolves.toEqual(["claude"]);
+
+    reply(request(0), ["duplicate"]);
+    reply({ rpc: "workspaces.list", requestId: "unknown" }, ["unknown"]);
+    await expect(Promise.race([pending, Promise.resolve("pending")])).resolves.toBe("pending");
+
+    reply(request(1), []);
+    await expect(pending).resolves.toEqual([]);
+    await expect(completed).resolves.toEqual(["claude"]);
+  });
+
+  it("rejects every pending RPC when the client is closed", async () => {
+    const first = client.rpc("providers.list");
+    const second = client.rpc("workspaces.list");
+    const results = Promise.allSettled([first, second]);
+
+    client.close();
+
+    expect(await results).toEqual([
+      { status: "rejected", reason: expect.objectContaining({ message: "Client closed" }) },
+      { status: "rejected", reason: expect.objectContaining({ message: "Client closed" }) },
+    ]);
+    expect(client.isConnected).toBe(false);
   });
 });
 
