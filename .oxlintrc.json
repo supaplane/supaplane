@@ -21,6 +21,12 @@
   },
   "overrides": [
     {
+      "files": ["packages/cast/**"],
+      "rules": {
+        "no-magic-numbers": "off"
+      }
+    },
+    {
       "files": ["**/*.{test,spec}.{ts,tsx,js,jsx}"],
       "rules": {
         "vitest/require-hook": "warn"
