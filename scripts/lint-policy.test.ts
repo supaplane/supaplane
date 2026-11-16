@@ -25,12 +25,50 @@ function lintFixture(filename: string, source: string) {
   expect(result.error).toBeUndefined();
   expect(result.signal).toBeNull();
   const report = JSON.parse(result.stdout) as {
-    diagnostics: { code: string; severity: string }[];
+    diagnostics: { code?: string; severity: string; message: string }[];
   };
   return { status: result.status, diagnostics: report.diagnostics };
 }
 
 describe("lint policy", () => {
+  it.each([
+    ["values", 'export const sessionId = "session";\nexport const providerId = "claude";\n'],
+    ["functions", "export function connect() {}\nexport function disconnect() {}\n"],
+    ["types", "export type SessionId = string;\nexport type ProviderId = string;\n"],
+    [
+      "classes",
+      "export class Client { connect() { return this; } }\nexport class Driver { connect() { return this; } }\n",
+    ],
+    [
+      "values with derived types",
+      'export const session = { id: "session" };\nexport type Session = typeof session;\n',
+    ],
+    [
+      "re-exports",
+      'export { Client } from "./client.js";\nexport { Driver } from "./driver.js";\n',
+    ],
+  ])("allows separate named exports for %s", (_kind, source) => {
+    const result = lintFixture("packages/protocol/src/entry.ts", source);
+    expect(result.status).toBe(0);
+    expect(result.diagnostics.map(({ code }) => code)).not.toContain(
+      "eslint-plugin-import(group-exports)",
+    );
+  });
+
+  it("rejects duplicate exported declarations", () => {
+    const result = lintFixture(
+      "packages/protocol/src/duplicate.ts",
+      'export const sessionId = "session";\nexport const sessionId = "other";\n',
+    );
+    expect(result.status).toBe(1);
+    expect(result.diagnostics).toContainEqual(
+      expect.objectContaining({
+        severity: "error",
+        message: "Identifier `sessionId` has already been declared",
+      }),
+    );
+  });
+
   it.each([
     "packages/server/src/entry.ts",
     "packages/server/src/server/entry.test.ts",
