@@ -21,6 +21,20 @@
   },
   "overrides": [
     {
+      "files": [
+        "packages/server/**",
+        "packages/cli/**",
+        "packages/desktop/src/main.ts",
+        "scripts/**",
+        "packages/cast/vite.config.ts",
+        "packages/web/vite.config.ts",
+        "packages/app/metro.config.cjs"
+      ],
+      "rules": {
+        "import/no-nodejs-modules": "off"
+      }
+    },
+    {
       "files": ["packages/cast/**"],
       "rules": {
         "id-length": "off",

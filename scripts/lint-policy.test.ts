@@ -32,6 +32,61 @@ function lintFixture(filename: string, source: string) {
 
 describe("lint policy", () => {
   it.each([
+    "packages/server/src/entry.ts",
+    "packages/server/src/server/entry.test.ts",
+    "packages/cli/src/entry.ts",
+    "packages/desktop/src/main.ts",
+    "scripts/check.ts",
+    "scripts/check.test.ts",
+    "packages/cast/vite.config.ts",
+    "packages/web/vite.config.ts",
+  ])("allows Node built-in imports in %s", (filename) => {
+    const result = lintFixture(
+      filename,
+      'import path from "node:path";\nexport const root = path.resolve(".");\n',
+    );
+    expect(result.status).toBe(0);
+    expect(result.diagnostics.map(({ code }) => code)).not.toContain(
+      "eslint-plugin-import(no-nodejs-modules)",
+    );
+  });
+
+  it("allows Node built-in requires in the Metro config", () => {
+    const result = lintFixture(
+      "packages/app/metro.config.cjs",
+      'const path = require("path");\nmodule.exports = path.resolve(".");\n',
+    );
+    expect(result.status).toBe(0);
+    expect(result.diagnostics.map(({ code }) => code)).not.toContain(
+      "eslint-plugin-import(no-nodejs-modules)",
+    );
+  });
+
+  it.each([
+    "packages/web/src/entry.ts",
+    "packages/app/src/entry.ts",
+    "packages/protocol/src/entry.ts",
+    "packages/client/src/entry.ts",
+    "packages/cast/src/entry.ts",
+    "packages/cast/demo/main.ts",
+    "packages/serverish/src/entry.ts",
+    "packages/web/src/vite.config.ts",
+    "packages/desktop/src/renderer.ts",
+  ])("keeps Node built-in import warnings in %s", (filename) => {
+    const result = lintFixture(
+      filename,
+      'import path from "node:path";\nexport const root = path.resolve(".");\n',
+    );
+    expect(result.status).toBe(0);
+    expect(result.diagnostics).toContainEqual(
+      expect.objectContaining({
+        code: "eslint-plugin-import(no-nodejs-modules)",
+        severity: "warning",
+      }),
+    );
+  });
+
+  it.each([
     "packages/cast/src/geometry.ts",
     "packages/cast/demo/main.ts",
     "packages/cast/src/rig.test.ts",
@@ -180,7 +235,13 @@ describe("lint policy", () => {
     );
   });
 
-  it.each(["entry.ts", "entry.test.ts"])("keeps error rules active in %s", (filename) => {
+  it.each([
+    "entry.ts",
+    "entry.test.ts",
+    "packages/server/src/entry.ts",
+    "scripts/check.test.ts",
+    "packages/app/metro.config.cjs",
+  ])("keeps error rules active in %s", (filename) => {
     const result = lintFixture(filename, "const unused = 1;\ndebugger;\n");
     expect(result.status).toBe(1);
     expect(result.diagnostics).toEqual(
