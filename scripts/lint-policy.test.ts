@@ -35,6 +35,33 @@ describe("lint policy", () => {
     "packages/cast/src/geometry.ts",
     "packages/cast/demo/main.ts",
     "packages/cast/src/rig.test.ts",
+  ])("allows short coordinate identifiers in %s", (filename) => {
+    const result = lintFixture(
+      filename,
+      "export function distance(x: number, y: number) { return Math.hypot(x, y); }\n",
+    );
+    expect(result.status).toBe(0);
+    expect(result.diagnostics.map(({ code }) => code)).not.toContain("eslint(id-length)");
+  });
+
+  it.each(["packages/server/src/entry.ts", "packages/castaway/entry.test.ts"])(
+    "keeps short identifier warnings outside Cast in %s",
+    (filename) => {
+      const result = lintFixture(
+        filename,
+        "export function distance(x: number, y: number) { return Math.hypot(x, y); }\n",
+      );
+      expect(result.status).toBe(0);
+      expect(result.diagnostics).toContainEqual(
+        expect.objectContaining({ code: "eslint(id-length)", severity: "warning" }),
+      );
+    },
+  );
+
+  it.each([
+    "packages/cast/src/geometry.ts",
+    "packages/cast/demo/main.ts",
+    "packages/cast/src/rig.test.ts",
   ])("allows numeric coefficients in %s", (filename) => {
     const result = lintFixture(
       filename,
