@@ -23,6 +23,7 @@
     {
       "files": ["packages/cast/**"],
       "rules": {
+        "id-length": "off",
         "no-magic-numbers": "off"
       }
     },
