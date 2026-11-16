@@ -15,6 +15,7 @@
     "react/style-prop-object": "off",
     "import/no-unassigned-import": "off",
     "import/no-named-export": "off",
+    "import/group-exports": "off",
     "sort-keys": "off",
     "vitest/require-to-throw-message": "off",
     "vitest/require-hook": "off"
