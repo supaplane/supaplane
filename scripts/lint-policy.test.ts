@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
-import { copyFileSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterAll, describe, expect, it } from "vitest";
 
@@ -16,6 +16,7 @@ afterAll(() => {
 
 function lintFixture(filename: string, source: string) {
   const fixturePath = join(fixtureDir, filename);
+  mkdirSync(dirname(fixturePath), { recursive: true });
   writeFileSync(fixturePath, source);
   const result = spawnSync(oxlintPath, ["--config", configPath, "--format", "json", fixturePath], {
     encoding: "utf8",
@@ -30,6 +31,47 @@ function lintFixture(filename: string, source: string) {
 }
 
 describe("lint policy", () => {
+  it.each([
+    "packages/cast/src/geometry.ts",
+    "packages/cast/demo/main.ts",
+    "packages/cast/src/rig.test.ts",
+  ])("allows numeric coefficients in %s", (filename) => {
+    const result = lintFixture(
+      filename,
+      "export function scale(radius: number) { return radius * 0.38; }\n",
+    );
+    expect(result.status).toBe(0);
+    expect(result.diagnostics.map(({ code }) => code)).not.toContain("eslint(no-magic-numbers)");
+  });
+
+  it.each(["packages/server/src/entry.ts", "packages/castaway/entry.test.ts"])(
+    "keeps numeric literal warnings outside Cast in %s",
+    (filename) => {
+      const result = lintFixture(
+        filename,
+        "export function scale(radius: number) { return radius * 0.38; }\n",
+      );
+      expect(result.status).toBe(0);
+      expect(result.diagnostics).toContainEqual(
+        expect.objectContaining({ code: "eslint(no-magic-numbers)", severity: "warning" }),
+      );
+    },
+  );
+
+  it.each(["packages/cast/src/geometry.ts", "packages/cast/src/rig.test.ts"])(
+    "keeps correctness errors in %s",
+    (filename) => {
+      const result = lintFixture(filename, "const unused = 1;\ndebugger;\n");
+      expect(result.status).toBe(1);
+      expect(result.diagnostics).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ code: "eslint(no-unused-vars)", severity: "error" }),
+          expect.objectContaining({ code: "eslint(no-debugger)", severity: "error" }),
+        ]),
+      );
+    },
+  );
+
   it.each(
     (
       [
