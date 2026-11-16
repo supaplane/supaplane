@@ -11,6 +11,7 @@
   "rules": {
     "no-console": "allow",
     "no-unused-vars": "error",
+    "no-ternary": "off",
     "react/react-in-jsx-scope": "off",
     "react/style-prop-object": "off",
     "import/no-unassigned-import": "off",
