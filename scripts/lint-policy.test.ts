@@ -32,6 +32,44 @@ function lintFixture(filename: string, source: string) {
 
 describe("lint policy", () => {
   it.each([
+    [
+      "scalar selection",
+      "packages/protocol/src/entry.ts",
+      'export function scheme(tls: boolean) { return tls ? "wss" : "ws"; }\n',
+    ],
+    [
+      "template expressions",
+      "packages/client/src/entry.ts",
+      'export function endpoint(tls: boolean) { return `${tls ? "wss" : "ws"}://localhost/ws`; }\n',
+    ],
+    [
+      "optional object fields",
+      "packages/server/src/entry.ts",
+      "export function options(token?: string) { return { ...(token ? { token } : {}) }; }\n",
+    ],
+    [
+      "JSX rendering",
+      "packages/web/src/entry.tsx",
+      'export function Status({ connected }: { connected: boolean }) { return <span>{connected ? "online" : "offline"}</span>; }\n',
+    ],
+  ])("allows simple ternaries for %s", (_kind, filename, source) => {
+    const result = lintFixture(filename, source);
+    expect(result.status).toBe(0);
+    expect(result.diagnostics.map(({ code }) => code)).not.toContain("eslint(no-ternary)");
+  });
+
+  it("keeps nested ternary warnings", () => {
+    const result = lintFixture(
+      "packages/protocol/src/nested.ts",
+      'export function label(primary: boolean, secondary: boolean) { return primary ? "primary" : secondary ? "secondary" : "idle"; }\n',
+    );
+    expect(result.status).toBe(0);
+    expect(result.diagnostics).toContainEqual(
+      expect.objectContaining({ code: "eslint(no-nested-ternary)", severity: "warning" }),
+    );
+  });
+
+  it.each([
     ["values", 'export const sessionId = "session";\nexport const providerId = "claude";\n'],
     ["functions", "export function connect() {}\nexport function disconnect() {}\n"],
     ["types", "export type SessionId = string;\nexport type ProviderId = string;\n"],
