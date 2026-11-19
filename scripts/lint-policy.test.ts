@@ -32,6 +32,32 @@ function lintFixture(filename: string, source: string) {
 
 describe("lint policy", () => {
   it.each([
+    "packages/web/src/entry.tsx",
+    "packages/app/src/entry.tsx",
+    "packages/web/src/entry.jsx",
+  ])("allows JSX in %s", (filename) => {
+    const result = lintFixture(filename, "export function Status() { return <span />; }\n");
+    expect(result.status).toBe(0);
+    expect(result.diagnostics.map(({ code }) => code)).not.toContain(
+      "eslint-plugin-react(jsx-filename-extension)",
+    );
+  });
+
+  it("keeps JSX filename warnings for unsupported extensions", () => {
+    const result = lintFixture(
+      "packages/web/src/entry.js",
+      "export function Status() { return <span />; }\n",
+    );
+    expect(result.status).toBe(0);
+    expect(result.diagnostics).toContainEqual(
+      expect.objectContaining({
+        code: "eslint-plugin-react(jsx-filename-extension)",
+        severity: "warning",
+      }),
+    );
+  });
+
+  it.each([
     [
       "scalar selection",
       "packages/protocol/src/entry.ts",
