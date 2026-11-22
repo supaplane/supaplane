@@ -12,6 +12,7 @@
     "no-console": "allow",
     "no-unused-vars": "error",
     "no-ternary": "off",
+    "no-use-before-define": ["warn", { "functions": false }],
     "typescript/explicit-member-accessibility": ["warn", { "accessibility": "no-public" }],
     "react/react-in-jsx-scope": "off",
     "react/style-prop-object": "off",
