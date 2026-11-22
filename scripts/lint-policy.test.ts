@@ -32,6 +32,68 @@ function lintFixture(filename: string, source: string) {
 
 describe("lint policy", () => {
   it.each([
+    [
+      "constructors",
+      "export class Client { readonly providerId: string; constructor(providerId: string) { this.providerId = providerId; } }\n",
+    ],
+    ["properties", 'export class Client { readonly providerId = "claude"; }\n'],
+    ["methods", "export class Client { connect() { return this; } }\n"],
+    [
+      "accessors",
+      "export class Client { get connected() { return true; } set connected(value: boolean) { void value; } }\n",
+    ],
+    [
+      "readonly parameter properties",
+      "export class Client { constructor(readonly providerId: string) {} }\n",
+    ],
+    [
+      "public parameter properties",
+      "export class Client { constructor(public providerId: string) {} }\n",
+    ],
+    [
+      "private members",
+      "export class Client { private connected = false; get isConnected() { return this.connected; } }\n",
+    ],
+    [
+      "protected members",
+      "export class Client { protected connected = false; get isConnected() { return this.connected; } }\n",
+    ],
+    [
+      "private fields",
+      "export class Client { #connected = false; get isConnected() { return this.#connected; } }\n",
+    ],
+  ])("allows class accessibility for %s", (_kind, source) => {
+    const result = lintFixture("packages/client/src/entry.ts", source);
+    expect(result.status).toBe(0);
+    expect(result.diagnostics.map(({ code }) => code)).not.toContain(
+      "typescript-eslint(explicit-member-accessibility)",
+    );
+  });
+
+  it.each([
+    [
+      "constructors",
+      "export class Client { readonly providerId: string; public constructor(providerId: string) { this.providerId = providerId; } }\n",
+    ],
+    ["properties", 'export class Client { public readonly providerId = "claude"; }\n'],
+    ["methods", "export class Client { public connect() { return this; } }\n"],
+    ["accessors", "export class Client { public get connected() { return true; } }\n"],
+    [
+      "readonly parameter properties",
+      "export class Client { constructor(public readonly providerId: string) {} }\n",
+    ],
+  ])("keeps redundant public modifier warnings for %s", (_kind, source) => {
+    const result = lintFixture("packages/client/src/entry.ts", source);
+    expect(result.status).toBe(0);
+    expect(result.diagnostics).toContainEqual(
+      expect.objectContaining({
+        code: "typescript-eslint(explicit-member-accessibility)",
+        severity: "warning",
+      }),
+    );
+  });
+
+  it.each([
     "packages/web/src/entry.tsx",
     "packages/app/src/entry.tsx",
     "packages/web/src/entry.jsx",
