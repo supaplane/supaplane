@@ -32,6 +32,55 @@ function lintFixture(filename: string, source: string) {
 
 describe("lint policy", () => {
   it.each([
+    ["top-level calls", "export const result = connect();\nfunction connect() { return true; }\n"],
+    [
+      "nested helpers",
+      "export function connect() { return ready(); function ready() { return true; } }\n",
+    ],
+    [
+      "async declarations",
+      "export const result = connect();\nasync function connect() { return true; }\n",
+    ],
+    [
+      "mutual recursion",
+      "export function first(ready: boolean): boolean { return ready || second(true); }\nfunction second(ready: boolean): boolean { return ready || first(true); }\n",
+    ],
+  ])("allows hoisted function declarations for %s", (_kind, source) => {
+    const result = lintFixture("packages/server/src/entry.ts", source);
+    expect(result.status).toBe(0);
+    expect(result.diagnostics.map(({ code }) => code)).not.toContain(
+      "eslint(no-use-before-define)",
+    );
+  });
+
+  it.each([
+    [
+      "classes",
+      "export const client = new Client();\nclass Client { connect() { return true; } }\n",
+    ],
+    [
+      "classes in outer scopes",
+      "export function connect() { return new Client(); }\nclass Client { connect() { return true; } }\n",
+    ],
+    ["arrow functions", "export const result = connect();\nconst connect = () => true;\n"],
+    [
+      "function expressions",
+      "export const result = connect();\nconst connect = function () { return true; };\n",
+    ],
+    ["variables", "export const result = ready;\nconst ready = true;\n"],
+    [
+      "variables in outer scopes",
+      "export function connect() { return ready; }\nconst ready = true;\n",
+    ],
+  ])("keeps early use warnings for %s", (_kind, source) => {
+    const result = lintFixture("packages/server/src/entry.ts", source);
+    expect(result.status).toBe(0);
+    expect(result.diagnostics).toContainEqual(
+      expect.objectContaining({ code: "eslint(no-use-before-define)", severity: "warning" }),
+    );
+  });
+
+  it.each([
     [
       "constructors",
       "export class Client { readonly providerId: string; constructor(providerId: string) { this.providerId = providerId; } }\n",
